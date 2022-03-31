@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
+}
+
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyFirstWidget(),
+      title: 'Places',
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -71,12 +83,17 @@ class MyFirstWidget extends StatelessWidget {
 
   int counter = 0;
 
+  // method() {
+  //   return context.runtimeType;
+  // }
+
   @override
   Widget build(BuildContext context) {
     print(
       counter += 1,
     ); //! Значение счетчика = 1. При перерисовке значение не меняется.
     return Container(
+      color: Colors.white,
       child: const Center(
         child: Text('Hello!'),
       ),
@@ -93,6 +110,10 @@ class MySecondWidget extends StatefulWidget {
 
 class _MySecondWidgetState extends State<MySecondWidget> {
   int counter = 0;
+
+  method() {
+    return context.runtimeType;
+  }
 
   @override
   Widget build(BuildContext context) {
