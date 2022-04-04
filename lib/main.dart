@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
   final String title;
+
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -30,12 +30,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,22 +58,28 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
 }
 
 class MyFirstWidget extends StatelessWidget {
-  MyFirstWidget({Key? key}) : super(key: key);
-
   int counter = 0;
+
+  MyFirstWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // ignore: avoid_print
     print(
       counter += 1,
     ); //! Значение счетчика = 1. При перерисовке значение не меняется.
-    return Container(
-      child: const Center(
-        child: Text('Hello!'),
-      ),
+
+    return const Center(
+      child: Text('Hello!'),
     );
   }
 }
@@ -96,13 +96,13 @@ class _MySecondWidgetState extends State<MySecondWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: avoid_print
     print(
       counter += 1,
     ); //! Значение счетчика = 1. При перерисовке значение инкрементируется, так как у виджета свое состояние и оно изменяется в дереве виджетов.
-    return Container(
-      child: const Center(
-        child: Text('Hello!'),
-      ),
+
+    return const Center(
+      child: Text('Hello!'),
     );
   }
 }
