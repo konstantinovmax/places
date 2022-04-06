@@ -30,7 +30,7 @@ class _SightListScreenState extends State<SightListScreen> {
                 fontWeight: FontWeight.w700,
                 fontSize: 32.0,
                 height: 1.12,
-                color: Color(0xFF252849),
+                color: Color(0xFF3B3E5B),
               ),
               maxLines: 2,
             ),
