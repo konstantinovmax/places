@@ -1,3 +1,4 @@
+// Модель для достопримечательностей
 class Sight {
   final String name;
   final double lat;
