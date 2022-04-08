@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/theme/app_assets.dart';
+import 'package:places/theme/app_colors.dart';
+import 'package:places/theme/app_typography.dart';
 
+// Класс для отображения карточки с достопримечательностью
 class SightCard extends StatelessWidget {
   final Sight sight;
 
@@ -27,19 +32,13 @@ class SightCard extends StatelessWidget {
               children: [
                 Text(
                   sight.type.toLowerCase(),
-                  style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14.0,
-                    height: 1.25,
-                    color: Color(0xFFFFFFFF),
-                  ),
+                  style: AppTypography.text14BoldWhite,
                 ),
                 IconButton(
                   onPressed: () {},
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
-                  icon: Image.asset('res/icons/heart_icon.png'),
+                  icon: SvgPicture.asset(AppAssets.heartIcon),
                 ),
               ],
             ),
@@ -47,7 +46,7 @@ class SightCard extends StatelessWidget {
         ),
         DecoratedBox(
           decoration: const BoxDecoration(
-            color: Color(0xFFF5F5F5),
+            color: AppColors.wildSandColor,
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(10.0),
               bottomRight: Radius.circular(10.0),
@@ -61,26 +60,14 @@ class SightCard extends StatelessWidget {
               children: [
                 Text(
                   sight.name,
-                  style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.0,
-                    height: 1.25,
-                    color: Color(0xFF3B3E5B),
-                  ),
+                  style: AppTypography.text16MediumOxfordBlue,
                 ),
                 const SizedBox(
                   height: 2.0,
                 ),
                 Text(
                   sight.details,
-                  style: const TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0,
-                    height: 1.25,
-                    color: Color(0xFF7C7E92),
-                  ),
+                  style: AppTypography.text14RegularWaterloo,
                 ),
               ],
             ),

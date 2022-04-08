@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
+import 'package:places/theme/app_strings.dart';
+import 'package:places/theme/app_typography.dart';
 import 'package:places/ui/screen/sight_card.dart';
 
+// Экран для отображения списка карточек с достопримечательностями
 class SightListScreen extends StatefulWidget {
   const SightListScreen({Key? key}) : super(key: key);
 
@@ -24,14 +27,8 @@ class _SightListScreenState extends State<SightListScreen> {
               height: 40.0,
             ),
             Text(
-              'Список\nинтересных мест',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700,
-                fontSize: 32.0,
-                height: 1.12,
-                color: Color(0xFF252849),
-              ),
+              AppStrings.listOfInterestingPlaces,
+              style: AppTypography.text32BoldOxfordBlue,
               maxLines: 2,
             ),
           ],
@@ -40,17 +37,17 @@ class _SightListScreenState extends State<SightListScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(children: [
-          SightCard(sight: mocks[0]),
-          const SizedBox(
-            height: 16.0,
+        child: Column(
+          children: List.generate(
+            mocks.length,
+            (index) => Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: SightCard(
+                sight: mocks[index],
+              ),
+            ),
           ),
-          SightCard(sight: mocks[1]),
-          const SizedBox(
-            height: 16.0,
-          ),
-          SightCard(sight: mocks[2]),
-        ]),
+        ),
       ),
     );
   }
