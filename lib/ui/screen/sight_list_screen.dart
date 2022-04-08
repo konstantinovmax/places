@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:places/mocks.dart';
+import 'package:places/ui/screen/sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
   const SightListScreen({Key? key}) : super(key: key);
@@ -11,44 +13,45 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 80.0,
+        toolbarHeight: 120.0,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: RichText(
-          text: const TextSpan(
-            style: TextStyle(
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w700,
-              fontSize: 32.0,
-              height: 1.12,
-              color: Color(0xFF252849),
+        title: Column(
+          children: const [
+            SizedBox(
+              height: 40.0,
             ),
-            children: [
-              TextSpan(
-                text: 'С',
-                style: TextStyle(
-                  color: Color(0xFF4CAF50),
-                ),
+            Text(
+              'Список\nинтересных мест',
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+                fontSize: 32.0,
+                height: 1.12,
+                color: Color(0xFF252849),
               ),
-              TextSpan(
-                text: 'писок\n',
-              ),
-              TextSpan(
-                text: 'и',
-                style: TextStyle(
-                  color: Color(0xFFFBC02D),
-                ),
-              ),
-              TextSpan(
-                text: 'нтересных мест',
-              ),
-            ],
-          ),
+              maxLines: 2,
+            ),
+          ],
         ),
         centerTitle: false,
       ),
-      body: const Center(child: Text('Hello!')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(children: [
+          SightCard(sight: mocks[0]),
+          const SizedBox(
+            height: 16.0,
+          ),
+          SightCard(sight: mocks[1]),
+          const SizedBox(
+            height: 16.0,
+          ),
+          SightCard(sight: mocks[2]),
+        ]),
+      ),
     );
   }
 }
