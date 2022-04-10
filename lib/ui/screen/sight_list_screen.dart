@@ -45,8 +45,11 @@ class _SightListScreenState extends State<SightListScreen> {
             mocks.length,
             (index) => Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: SightCard(
-                sight: mocks[index],
+              child: AspectRatio(
+                aspectRatio: 3 / 2,
+                child: SightCard(
+                  sight: mocks[index],
+                ),
               ),
             ),
           ),

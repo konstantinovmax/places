@@ -15,9 +15,9 @@ class SightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        AspectRatio(
-          aspectRatio: 3 / 2,
+        Expanded(
           child: Container(
             decoration: const BoxDecoration(
               color: Colors.blueAccent,
@@ -50,8 +50,7 @@ class SightCard extends StatelessWidget {
         const SizedBox(
           height: 5.0,
         ),
-        AspectRatio(
-          aspectRatio: 3 / 2,
+        Expanded(
           child: Container(
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -90,6 +89,8 @@ class SightCard extends StatelessWidget {
                     child: Text(
                       sight.details,
                       style: AppTypography.text14RegularWaterloo,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
                   ),
                 ],
