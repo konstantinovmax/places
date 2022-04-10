@@ -6,4 +6,5 @@ class AppColors {
   static const oxfordBlueColor = Color(0xFF3B3E5B);
   static const waterlooColor = Color(0xFF7C7E92);
   static const fruitSaladColor = Color(0xFF4CAF50);
+  static const silverColor = Color(0xFFC4C4C4);
 }

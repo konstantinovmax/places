@@ -14,62 +14,87 @@ class SightCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.blueAccent,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              topRight: Radius.circular(10.0),
+        Expanded(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.blueAccent,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
+              ),
             ),
-          ),
-          alignment: Alignment.topCenter,
-          height: 100.0,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  sight.type.toLowerCase(),
-                  style: AppTypography.text14BoldWhite,
-                ),
-                IconButton(
-                  onPressed: () {},
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  icon: SvgPicture.asset(AppAssets.heartIcon),
-                ),
-              ],
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    sight.type.toLowerCase(),
+                    style: AppTypography.text14BoldWhite,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: SvgPicture.asset(AppAssets.heartIcon),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-        DecoratedBox(
-          decoration: const BoxDecoration(
-            color: AppColors.wildSandColor,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10.0),
-              bottomRight: Radius.circular(10.0),
+        const SizedBox(
+          height: 5.0,
+        ),
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: AppColors.wildSandColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10.0),
+                bottomRight: Radius.circular(10.0),
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  sight.name,
-                  style: AppTypography.text16MediumOxfordBlue,
-                ),
-                const SizedBox(
-                  height: 2.0,
-                ),
-                Text(
-                  sight.details,
-                  style: AppTypography.text14RegularWaterloo,
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width / 2,
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(3.0),
+                      color: AppColors.silverColor,
+                      child: Text(
+                        sight.name,
+                        style: AppTypography.text16MediumOxfordBlue,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 2.0,
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width / 2,
+                    ),
+                    child: Text(
+                      sight.details,
+                      style: AppTypography.text14RegularWaterloo,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

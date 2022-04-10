@@ -21,17 +21,20 @@ class _SightListScreenState extends State<SightListScreen> {
         toolbarHeight: 120.0,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Column(
-          children: const [
-            SizedBox(
-              height: 40.0,
+        bottom: PreferredSize(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: const [
+                Text(
+                  AppStrings.listOfInterestingPlaces,
+                  style: AppTypography.text32BoldOxfordBlue,
+                  maxLines: 2,
+                ),
+              ],
             ),
-            Text(
-              AppStrings.listOfInterestingPlaces,
-              style: AppTypography.text32BoldOxfordBlue,
-              maxLines: 2,
-            ),
-          ],
+          ),
+          preferredSize: Size.zero,
         ),
         centerTitle: false,
       ),
@@ -42,8 +45,11 @@ class _SightListScreenState extends State<SightListScreen> {
             mocks.length,
             (index) => Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: SightCard(
-                sight: mocks[index],
+              child: AspectRatio(
+                aspectRatio: 3 / 2,
+                child: SightCard(
+                  sight: mocks[index],
+                ),
               ),
             ),
           ),
