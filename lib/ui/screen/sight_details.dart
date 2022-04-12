@@ -18,7 +18,7 @@ class SightDetails extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const SightDetailsImage(),
+          SightDetailsImage(sight: sight),
           const SizedBox(
             height: 24.0,
           ),
@@ -53,13 +53,29 @@ class SightDetails extends StatelessWidget {
 }
 
 class SightDetailsImage extends StatelessWidget {
-  const SightDetailsImage({Key? key}) : super(key: key);
+  final Sight sight;
+
+  const SightDetailsImage({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 360.0,
-      color: Colors.red,
+      child: Image.network(
+        sight.url,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+        loadingBuilder: (context, widget, loadingProgress) {
+          if (loadingProgress != null) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          return widget;
+        },
+      ),
     );
   }
 }
@@ -99,8 +115,8 @@ class SightDetailsContent extends StatelessWidget {
         const SizedBox(
           height: 24.0,
         ),
-        const Text(
-          'Пряный вкус радостной жизни вместе с шеф-поваром Изо Дзандзава, благодаря которой у гостей ресторана есть возможность выбирать из двух направлений: европейского и восточного',
+        Text(
+          sight.details,
           style: AppTypography.text14RegularWaterloo,
         ),
       ],
