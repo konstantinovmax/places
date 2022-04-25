@@ -10,6 +10,14 @@ class AppTypography {
     color: AppColors.waterlooColor,
   );
 
+  static const text14RegularFruitSalad = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+    fontSize: 14.0,
+    height: 1.25,
+    color: AppColors.fruitSaladColor,
+  );
+
   static const text14BoldWhite = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w700,
@@ -26,10 +34,26 @@ class AppTypography {
     color: AppColors.oxfordBlueColor,
   );
 
+  static const text14BoldWaterloo = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w700,
+    fontSize: 14.0,
+    height: 1.25,
+    color: AppColors.waterlooColor,
+  );
+
   static const text16MediumOxfordBlue = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,
     fontSize: 16.0,
+    height: 1.25,
+    color: AppColors.oxfordBlueColor,
+  );
+
+  static const text18MediumMartinique = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w500,
+    fontSize: 18.0,
     height: 1.25,
     color: AppColors.oxfordBlueColor,
   );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
+import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
 import 'package:places/ui/screen/sight_card.dart';
@@ -49,6 +50,9 @@ class _SightListScreenState extends State<SightListScreen> {
                 aspectRatio: 3 / 2,
                 child: SightCard(
                   sight: mocks[index],
+                  isHaveCalendarOrShareIcon: false,
+                  calendarOrShareIcon: '',
+                  addOrRemoveIcon: AppAssets.heartIcon,
                 ),
               ),
             ),
