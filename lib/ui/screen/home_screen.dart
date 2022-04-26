@@ -12,30 +12,14 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController tabController;
-
-  @override
-  void initState() {
-    tabController = TabController(length: 2, vsync: this);
-    tabController.addListener(() {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
-  }
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(
-        controller: tabController,
+      body: IndexedStack(
+        index: _selectedIndex,
         children: const [
           SightListScreen(),
           VisitingScreen(),
@@ -59,9 +43,11 @@ class _HomeScreenState extends State<HomeScreen>
         child: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          currentIndex: tabController.index,
+          currentIndex: _selectedIndex,
           onTap: (currentIndex) {
-            tabController.animateTo(currentIndex);
+            setState(() {
+              _selectedIndex = currentIndex;
+            });
           },
           items: [
             BottomNavigationBarItem(

@@ -24,55 +24,41 @@ class VisitingScreen extends StatelessWidget {
           centerTitle: true,
           elevation: 0.0,
         ),
-        body: TabBarView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Container(
-                    height: 40.0,
-                    decoration: const BoxDecoration(
-                      color: AppColors.wildSandColor,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Theme(
+                data: ThemeData(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                ),
+                child: const DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColors.wildSandColor,
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  ),
+                  child: TabBar(
+                    labelColor: AppColors.whiteColor,
+                    unselectedLabelColor: AppColors.waterlooColor,
+                    indicator: BoxDecoration(
+                      color: AppColors.oxfordBlueColor,
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          flex: 3,
-                          child: Container(
-                            height: double.infinity,
-                            decoration: const BoxDecoration(
-                              color: AppColors.oxfordBlueColor,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                AppStrings.wantToVisit,
-                                style: AppTypography.text14BoldWhite,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Flexible(
-                          flex: 3,
-                          child: Center(
-                            child: Text(
-                              AppStrings.alreadyVisited,
-                              style: AppTypography.text14BoldWaterloo,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    tabs: [
+                      Tab(child: Text(AppStrings.wantToVisit)),
+                      Tab(child: Text(AppStrings.alreadyVisited)),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 30.0,
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
+                ),
+              ),
+              const SizedBox(
+                height: 30.0,
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    SingleChildScrollView(
                       child: Column(
                         children: List.generate(
                           mocks.length,
@@ -91,57 +77,7 @@ class VisitingScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Container(
-                    height: 40.0,
-                    decoration: const BoxDecoration(
-                      color: AppColors.wildSandColor,
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Flexible(
-                          flex: 3,
-                          child: Center(
-                            child: Text(
-                              AppStrings.wantToVisit,
-                              style: AppTypography.text14BoldWaterloo,
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 3,
-                          child: Container(
-                            height: double.infinity,
-                            decoration: const BoxDecoration(
-                              color: AppColors.oxfordBlueColor,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                AppStrings.alreadyVisited,
-                                style: AppTypography.text14BoldWhite,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30.0,
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
+                    SingleChildScrollView(
                       child: Column(
                         children: List.generate(
                           mocks.length,
@@ -160,11 +96,11 @@ class VisitingScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
