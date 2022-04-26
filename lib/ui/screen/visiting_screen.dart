@@ -33,17 +33,18 @@ class VisitingScreen extends StatelessWidget {
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                 ),
-                child: const DecoratedBox(
-                  decoration: BoxDecoration(
+                child: Container(
+                  height: 40.0,
+                  decoration: const BoxDecoration(
                     color: AppColors.wildSandColor,
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   ),
-                  child: TabBar(
+                  child: const TabBar(
                     labelColor: AppColors.whiteColor,
                     unselectedLabelColor: AppColors.waterlooColor,
                     indicator: BoxDecoration(
                       color: AppColors.oxfordBlueColor,
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
                     ),
                     tabs: [
                       Tab(child: Text(AppStrings.wantToVisit)),
