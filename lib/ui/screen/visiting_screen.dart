@@ -55,50 +55,49 @@ class VisitingScreen extends StatelessWidget {
             preferredSize: const Size.fromHeight(40.0),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TabBarView(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  children: List.generate(
-                    mocks.length,
-                    (index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: AspectRatio(
-                        aspectRatio: 3 / 2,
-                        child: SightCard(
-                          sight: mocks[mocks.length - index - 1],
-                          isHaveCalendarOrShareIcon: true,
-                          calendarOrShareIcon: AppAssets.calendarIcon,
-                          addOrRemoveIcon: AppAssets.closeIcon,
-                        ),
+        body: TabBarView(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: List.generate(
+                  mocks.length,
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: AspectRatio(
+                      aspectRatio: 3 / 2,
+                      child: SightCard(
+                        sight: mocks[mocks.length - index - 1],
+                        isHaveCalendarOrShareIcon: true,
+                        calendarOrShareIcon: AppAssets.calendarIcon,
+                        addOrRemoveIcon: AppAssets.closeIcon,
                       ),
                     ),
                   ),
                 ),
               ),
-              SingleChildScrollView(
-                child: Column(
-                  children: List.generate(
-                    mocks.length,
-                    (index) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: AspectRatio(
-                        aspectRatio: 3 / 2,
-                        child: SightCard(
-                          sight: mocks[index],
-                          isHaveCalendarOrShareIcon: true,
-                          calendarOrShareIcon: AppAssets.shareIcon,
-                          addOrRemoveIcon: AppAssets.closeIcon,
-                        ),
+            ),
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: List.generate(
+                  mocks.length,
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: AspectRatio(
+                      aspectRatio: 3 / 2,
+                      child: SightCard(
+                        sight: mocks[index],
+                        isHaveCalendarOrShareIcon: true,
+                        calendarOrShareIcon: AppAssets.shareIcon,
+                        addOrRemoveIcon: AppAssets.closeIcon,
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
