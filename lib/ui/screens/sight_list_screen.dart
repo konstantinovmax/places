@@ -3,7 +3,7 @@ import 'package:places/mocks.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
-import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screens/sight_card.dart';
 
 // Экран для отображения списка карточек с достопримечательностями
 class SightListScreen extends StatefulWidget {
@@ -17,10 +17,10 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 120.0,
-        backgroundColor: Colors.transparent,
+        // backgroundColor: Colors.transparent,
         elevation: 0.0,
         bottom: PreferredSize(
           child: Padding(

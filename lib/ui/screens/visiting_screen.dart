@@ -4,7 +4,7 @@ import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
-import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screens/sight_card.dart';
 
 class VisitingScreen extends StatelessWidget {
   const VisitingScreen({Key? key}) : super(key: key);
@@ -14,9 +14,9 @@ class VisitingScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
+        // backgroundColor: AppColors.whiteColor,
         appBar: AppBar(
-          backgroundColor: AppColors.whiteColor,
+          // backgroundColor: AppColors.whiteColor,
           title: const Text(
             AppStrings.favorites,
             style: AppTypography.text18MediumMartinique,

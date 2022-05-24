@@ -5,6 +5,7 @@ import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
+import 'package:places/ui/screens/resources/themes.dart';
 
 // Класс для отображения карточки с достопримечательностью
 class SightCard extends StatelessWidget {
@@ -89,66 +90,69 @@ class SightCard extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: AppColors.wildSandColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(10.0),
+          child: Theme(
+            data: lightTheme,
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: lightTheme.primaryColor,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        sight.name,
-                        style: AppTypography.text16MediumOxfordBlue,
-                      ),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
-                      if (calendarOrShareIcon == AppAssets.calendarIcon) ...[
-                        const Text(
-                          '${AppStrings.scheduledFor} 12 окт. 2020',
-                          style: AppTypography.text14RegularFruitSalad,
-                          maxLines: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          sight.name,
+                          style: AppTypography.text16MediumOxfordBlue,
                         ),
-                      ] else if (calendarOrShareIcon ==
-                          AppAssets.shareIcon) ...[
-                        const Text(
-                          '${AppStrings.goalAchieved} 12 окт. 2020',
-                          style: AppTypography.text14RegularWaterloo,
-                          maxLines: 1,
+                        const SizedBox(
+                          height: 2.0,
                         ),
-                      ] else ...[
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width / 2,
+                        if (calendarOrShareIcon == AppAssets.calendarIcon) ...[
+                          const Text(
+                            '${AppStrings.scheduledFor} 12 окт. 2020',
+                            style: AppTypography.text14RegularFruitSalad,
+                            maxLines: 1,
                           ),
-                          child: Text(
-                            sight.details,
+                        ] else if (calendarOrShareIcon ==
+                            AppAssets.shareIcon) ...[
+                          const Text(
+                            '${AppStrings.goalAchieved} 12 окт. 2020',
                             style: AppTypography.text14RegularWaterloo,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
+                            maxLines: 1,
                           ),
-                        ),
+                        ] else ...[
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width / 2,
+                            ),
+                            child: Text(
+                              sight.details,
+                              style: AppTypography.text14RegularWaterloo,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
-                  ),
-                  Text(
-                    '${AppStrings.closedUntil.toLowerCase()} 09:00',
-                    style: AppTypography.text14RegularWaterloo,
-                    maxLines: 1,
-                  ),
-                ],
+                    ),
+                    Text(
+                      '${AppStrings.closedUntil.toLowerCase()} 09:00',
+                      style: AppTypography.text14RegularWaterloo,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
