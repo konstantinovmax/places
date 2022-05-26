@@ -41,8 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         child: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
           currentIndex: _selectedIndex,
           onTap: (currentIndex) {
             setState(() {
@@ -53,22 +51,30 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppAssets.listIcon,
-                color: AppColors.oxfordBlueColor,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
                 AppAssets.listIconActive,
-                color: AppColors.oxfordBlueColor,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .selectedItemColor,
               ),
               label: '',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppAssets.heartIcon,
-                color: AppColors.oxfordBlueColor,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
                 AppAssets.heartIconActive,
-                color: AppColors.oxfordBlueColor,
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .selectedItemColor,
               ),
               label: '',
             ),
