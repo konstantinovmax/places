@@ -17,6 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
@@ -51,30 +53,22 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppAssets.listIcon,
-                color: Theme.of(context)
-                    .bottomNavigationBarTheme
-                    .unselectedItemColor,
+                color: theme.bottomNavigationBarTheme.unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
                 AppAssets.listIconActive,
-                color: Theme.of(context)
-                    .bottomNavigationBarTheme
-                    .selectedItemColor,
+                color: theme.bottomNavigationBarTheme.selectedItemColor,
               ),
               label: '',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppAssets.heartIcon,
-                color: Theme.of(context)
-                    .bottomNavigationBarTheme
-                    .unselectedItemColor,
+                color: theme.bottomNavigationBarTheme.unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
                 AppAssets.heartIconActive,
-                color: Theme.of(context)
-                    .bottomNavigationBarTheme
-                    .selectedItemColor,
+                color: theme.bottomNavigationBarTheme.selectedItemColor,
               ),
               label: '',
             ),

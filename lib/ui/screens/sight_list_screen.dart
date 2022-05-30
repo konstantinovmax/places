@@ -15,6 +15,8 @@ class SightListScreen extends StatefulWidget {
 class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(120.0),
@@ -26,7 +28,7 @@ class _SightListScreenState extends State<SightListScreen> {
               elevation: 0.0,
               title: Text(
                 AppStrings.listOfInterestingPlaces,
-                style: Theme.of(context).textTheme.headline3,
+                style: theme.textTheme.headline3,
                 maxLines: 2,
               ),
               centerTitle: false,

@@ -10,13 +10,15 @@ class VisitingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text(
             AppStrings.favorites,
-            style: Theme.of(context).textTheme.headline6,
+            style: theme.textTheme.headline6,
           ),
           centerTitle: true,
           elevation: 0.0,
@@ -31,14 +33,14 @@ class VisitingScreen extends StatelessWidget {
                 child: Container(
                   height: 40.0,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
+                    color: theme.cardColor,
                     borderRadius: const BorderRadius.all(Radius.circular(50.0)),
                   ),
                   child: TabBar(
-                    labelColor: Theme.of(context).hintColor,
-                    unselectedLabelColor: Theme.of(context).disabledColor,
+                    labelColor: theme.hintColor,
+                    unselectedLabelColor: theme.disabledColor,
                     indicator: BoxDecoration(
-                      color: Theme.of(context).indicatorColor,
+                      color: theme.indicatorColor,
                       borderRadius:
                           const BorderRadius.all(Radius.circular(50.0)),
                     ),

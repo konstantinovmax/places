@@ -12,6 +12,7 @@ class SightDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sight = ModalRoute.of(context)!.settings.arguments as Sight;
+    final theme = Theme.of(context);
 
     return Scaffold(
       body: Column(
@@ -30,7 +31,7 @@ class SightDetails extends StatelessWidget {
                     width: 32.0,
                     height: 32.0,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
+                      color: theme.scaffoldBackgroundColor,
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10.0)),
                     ),
@@ -38,7 +39,7 @@ class SightDetails extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.asset(
                         AppAssets.arrowIcon,
-                        color: Theme.of(context).indicatorColor,
+                        color: theme.indicatorColor,
                       ),
                     ),
                   ),
@@ -53,11 +54,11 @@ class SightDetails extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                SightDetailsContent(sight: sight),
+                SightDetailsContent(sight: sight, theme: theme),
                 const SizedBox(
                   height: 24.0,
                 ),
-                const SightDetailsSubmitButton(),
+                SightDetailsSubmitButton(theme: theme),
                 const SizedBox(
                   height: 24.0,
                 ),
@@ -69,7 +70,7 @@ class SightDetails extends StatelessWidget {
                 const SizedBox(
                   height: 16.0,
                 ),
-                const SightDetailsActionButtons(),
+                SightDetailsActionButtons(theme: theme),
               ],
             ),
           ),
@@ -109,8 +110,13 @@ class SightDetailsImage extends StatelessWidget {
 
 class SightDetailsContent extends StatelessWidget {
   final Sight sight;
+  final ThemeData theme;
 
-  const SightDetailsContent({Key? key, required this.sight}) : super(key: key);
+  const SightDetailsContent({
+    Key? key,
+    required this.sight,
+    required this.theme,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +125,7 @@ class SightDetailsContent extends StatelessWidget {
       children: [
         Text(
           sight.name,
-          style: Theme.of(context).textTheme.headline2,
+          style: theme.textTheme.headline2,
         ),
         const SizedBox(
           height: 2.0,
@@ -128,14 +134,14 @@ class SightDetailsContent extends StatelessWidget {
           children: [
             Text(
               sight.type.toLowerCase(),
-              style: Theme.of(context).textTheme.headline1,
+              style: theme.textTheme.headline1,
             ),
             const SizedBox(
               width: 16.0,
             ),
             Text(
               'время работы',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: theme.textTheme.bodyText1,
             ),
           ],
         ),
@@ -144,7 +150,7 @@ class SightDetailsContent extends StatelessWidget {
         ),
         Text(
           sight.details,
-          style: Theme.of(context).textTheme.bodyText2,
+          style: theme.textTheme.bodyText2,
         ),
       ],
     );
@@ -152,7 +158,12 @@ class SightDetailsContent extends StatelessWidget {
 }
 
 class SightDetailsSubmitButton extends StatelessWidget {
-  const SightDetailsSubmitButton({Key? key}) : super(key: key);
+  final ThemeData theme;
+
+  const SightDetailsSubmitButton({
+    Key? key,
+    required this.theme,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +174,7 @@ class SightDetailsSubmitButton extends StatelessWidget {
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
           backgroundColor: MaterialStateProperty.resolveWith(
-            (states) => Theme.of(context).canvasColor,
+            (states) => theme.canvasColor,
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
@@ -180,7 +191,7 @@ class SightDetailsSubmitButton extends StatelessWidget {
             ),
             Text(
               AppStrings.createRoute.toUpperCase(),
-              style: Theme.of(context).textTheme.subtitle1,
+              style: theme.textTheme.subtitle1,
             ),
           ],
         ),
@@ -190,7 +201,12 @@ class SightDetailsSubmitButton extends StatelessWidget {
 }
 
 class SightDetailsActionButtons extends StatelessWidget {
-  const SightDetailsActionButtons({Key? key}) : super(key: key);
+  final ThemeData theme;
+
+  const SightDetailsActionButtons({
+    Key? key,
+    required this.theme,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -205,14 +221,14 @@ class SightDetailsActionButtons extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   AppAssets.calendarIcon,
-                  color: Theme.of(context).disabledColor,
+                  color: theme.disabledColor,
                 ),
                 const SizedBox(
                   width: 8.0,
                 ),
                 Text(
                   AppStrings.schedule,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: theme.textTheme.bodyText1,
                 ),
               ],
             ),
@@ -223,14 +239,14 @@ class SightDetailsActionButtons extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   AppAssets.heartIcon,
-                  color: Theme.of(context).indicatorColor,
+                  color: theme.indicatorColor,
                 ),
                 const SizedBox(
                   width: 8.0,
                 ),
                 Text(
                   AppStrings.toFavorites,
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: theme.textTheme.bodyText2,
                 ),
               ],
             ),
