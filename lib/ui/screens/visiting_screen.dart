@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
 import 'package:places/theme/app_assets.dart';
-import 'package:places/theme/app_colors.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
-import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screens/sight_card.dart';
 
 class VisitingScreen extends StatelessWidget {
   const VisitingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
         appBar: AppBar(
-          backgroundColor: AppColors.whiteColor,
-          title: const Text(
+          title: Text(
             AppStrings.favorites,
-            style: AppTypography.text18MediumMartinique,
+            style: theme.textTheme.headline6,
           ),
           centerTitle: true,
           elevation: 0.0,
@@ -33,20 +32,31 @@ class VisitingScreen extends StatelessWidget {
                 ),
                 child: Container(
                   height: 40.0,
-                  decoration: const BoxDecoration(
-                    color: AppColors.wildSandColor,
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  decoration: BoxDecoration(
+                    color: theme.cardColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(50.0)),
                   ),
-                  child: const TabBar(
-                    labelColor: AppColors.whiteColor,
-                    unselectedLabelColor: AppColors.waterlooColor,
+                  child: TabBar(
+                    labelColor: theme.hintColor,
+                    unselectedLabelColor: theme.disabledColor,
                     indicator: BoxDecoration(
-                      color: AppColors.oxfordBlueColor,
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      color: theme.indicatorColor,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(50.0)),
                     ),
-                    tabs: [
-                      Tab(child: Text(AppStrings.wantToVisit)),
-                      Tab(child: Text(AppStrings.alreadyVisited)),
+                    tabs: const [
+                      Tab(
+                        child: Text(
+                          AppStrings.wantToVisit,
+                          style: AppTypography.text14Bold,
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          AppStrings.alreadyVisited,
+                          style: AppTypography.text14Bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -58,14 +68,14 @@ class VisitingScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
               child: Column(
                 children: List.generate(
                   mocks.length,
                   (index) => Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: AspectRatio(
-                      aspectRatio: 3 / 2,
+                      aspectRatio: 16 / 9,
                       child: SightCard(
                         sight: mocks[mocks.length - index - 1],
                         isHaveCalendarOrShareIcon: true,
@@ -78,14 +88,14 @@ class VisitingScreen extends StatelessWidget {
               ),
             ),
             SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
               child: Column(
                 children: List.generate(
                   mocks.length,
                   (index) => Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: AspectRatio(
-                      aspectRatio: 3 / 2,
+                      aspectRatio: 16 / 9,
                       child: SightCard(
                         sight: mocks[index],
                         isHaveCalendarOrShareIcon: true,

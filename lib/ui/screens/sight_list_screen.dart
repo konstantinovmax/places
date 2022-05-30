@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/mocks.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_strings.dart';
-import 'package:places/theme/app_typography.dart';
-import 'package:places/ui/screen/sight_card.dart';
+import 'package:places/ui/screens/sight_card.dart';
 
 // Экран для отображения списка карточек с достопримечательностями
 class SightListScreen extends StatefulWidget {
@@ -16,28 +15,26 @@ class SightListScreen extends StatefulWidget {
 class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        toolbarHeight: 120.0,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        bottom: PreferredSize(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: const [
-                Text(
-                  AppStrings.listOfInterestingPlaces,
-                  style: AppTypography.text32BoldOxfordBlue,
-                  maxLines: 2,
-                ),
-              ],
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(120.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            AppBar(
+              toolbarHeight: 70.0,
+              elevation: 0.0,
+              title: Text(
+                AppStrings.listOfInterestingPlaces,
+                style: theme.textTheme.headline3,
+                maxLines: 2,
+              ),
+              centerTitle: false,
             ),
-          ),
-          preferredSize: Size.zero,
+          ],
         ),
-        centerTitle: false,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -47,7 +44,7 @@ class _SightListScreenState extends State<SightListScreen> {
             (index) => Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: AspectRatio(
-                aspectRatio: 3 / 2,
+                aspectRatio: 16 / 9,
                 child: SightCard(
                   sight: mocks[index],
                   isHaveCalendarOrShareIcon: false,

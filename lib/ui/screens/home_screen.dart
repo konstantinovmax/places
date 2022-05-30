@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
-import 'package:places/ui/screen/sight_list_screen.dart';
-import 'package:places/ui/screen/visiting_screen.dart';
+import 'package:places/ui/screens/sight_list_screen.dart';
+import 'package:places/ui/screens/visiting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
@@ -41,8 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         child: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
           currentIndex: _selectedIndex,
           onTap: (currentIndex) {
             setState(() {
@@ -53,22 +53,22 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppAssets.listIcon,
-                color: AppColors.oxfordBlueColor,
+                color: theme.bottomNavigationBarTheme.unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
                 AppAssets.listIconActive,
-                color: AppColors.oxfordBlueColor,
+                color: theme.bottomNavigationBarTheme.selectedItemColor,
               ),
               label: '',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 AppAssets.heartIcon,
-                color: AppColors.oxfordBlueColor,
+                color: theme.bottomNavigationBarTheme.unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
                 AppAssets.heartIconActive,
-                color: AppColors.oxfordBlueColor,
+                color: theme.bottomNavigationBarTheme.selectedItemColor,
               ),
               label: '',
             ),

@@ -9,4 +9,7 @@ class AppColors {
   static const fruitSaladColor = Color(0xFF4CAF50);
   static const silverColor = Color(0xFFC4C4C4);
   static const martiniqueColor = Color(0xFF252849);
+  static const charadeColor = Color(0xFF21222C);
+  static const sharkColor = Color(0xFF1A1A20);
+  static const pastelGreenColor = Color(0xff6ADA6F);
 }

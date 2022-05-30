@@ -4,21 +4,49 @@ import 'package:places/domain/sight.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
 import 'package:places/theme/app_strings.dart';
-import 'package:places/theme/app_typography.dart';
 
 // Экран с детальной информацией о достопримечательности
 class SightDetails extends StatelessWidget {
-  final Sight sight;
-
-  const SightDetails({Key? key, required this.sight}) : super(key: key);
+  const SightDetails({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final sight = ModalRoute.of(context)!.settings.arguments as Sight;
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Column(
         children: [
-          SightDetailsImage(sight: sight),
+          Stack(
+            children: [
+              SightDetailsImage(sight: sight),
+              AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Container(
+                    width: 32.0,
+                    height: 32.0,
+                    decoration: BoxDecoration(
+                      color: theme.scaffoldBackgroundColor,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.asset(
+                        AppAssets.arrowIcon,
+                        color: theme.indicatorColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           const SizedBox(
             height: 24.0,
           ),
@@ -26,11 +54,11 @@ class SightDetails extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                SightDetailsContent(sight: sight),
+                SightDetailsContent(sight: sight, theme: theme),
                 const SizedBox(
                   height: 24.0,
                 ),
-                const SightDetailsSubmitButton(),
+                SightDetailsSubmitButton(theme: theme),
                 const SizedBox(
                   height: 24.0,
                 ),
@@ -42,7 +70,7 @@ class SightDetails extends StatelessWidget {
                 const SizedBox(
                   height: 16.0,
                 ),
-                const SightDetailsActionButtons(),
+                SightDetailsActionButtons(theme: theme),
               ],
             ),
           ),
@@ -82,8 +110,13 @@ class SightDetailsImage extends StatelessWidget {
 
 class SightDetailsContent extends StatelessWidget {
   final Sight sight;
+  final ThemeData theme;
 
-  const SightDetailsContent({Key? key, required this.sight}) : super(key: key);
+  const SightDetailsContent({
+    Key? key,
+    required this.sight,
+    required this.theme,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +125,7 @@ class SightDetailsContent extends StatelessWidget {
       children: [
         Text(
           sight.name,
-          style: AppTypography.text24BoldOxfordBlue,
+          style: theme.textTheme.headline2,
         ),
         const SizedBox(
           height: 2.0,
@@ -101,14 +134,14 @@ class SightDetailsContent extends StatelessWidget {
           children: [
             Text(
               sight.type.toLowerCase(),
-              style: AppTypography.text14BoldOxfordBlue,
+              style: theme.textTheme.headline1,
             ),
             const SizedBox(
               width: 16.0,
             ),
-            const Text(
+            Text(
               'время работы',
-              style: AppTypography.text14RegularWaterloo,
+              style: theme.textTheme.bodyText1,
             ),
           ],
         ),
@@ -117,7 +150,7 @@ class SightDetailsContent extends StatelessWidget {
         ),
         Text(
           sight.details,
-          style: AppTypography.text14RegularWaterloo,
+          style: theme.textTheme.bodyText2,
         ),
       ],
     );
@@ -125,7 +158,12 @@ class SightDetailsContent extends StatelessWidget {
 }
 
 class SightDetailsSubmitButton extends StatelessWidget {
-  const SightDetailsSubmitButton({Key? key}) : super(key: key);
+  final ThemeData theme;
+
+  const SightDetailsSubmitButton({
+    Key? key,
+    required this.theme,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +174,7 @@ class SightDetailsSubmitButton extends StatelessWidget {
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
           backgroundColor: MaterialStateProperty.resolveWith(
-            (states) => AppColors.fruitSaladColor,
+            (states) => theme.canvasColor,
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
@@ -152,8 +190,8 @@ class SightDetailsSubmitButton extends StatelessWidget {
               width: 8.0,
             ),
             Text(
-              AppStrings.createRoute.toLowerCase(),
-              style: AppTypography.text14BoldWhite,
+              AppStrings.createRoute.toUpperCase(),
+              style: theme.textTheme.subtitle1,
             ),
           ],
         ),
@@ -163,7 +201,12 @@ class SightDetailsSubmitButton extends StatelessWidget {
 }
 
 class SightDetailsActionButtons extends StatelessWidget {
-  const SightDetailsActionButtons({Key? key}) : super(key: key);
+  final ThemeData theme;
+
+  const SightDetailsActionButtons({
+    Key? key,
+    required this.theme,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -176,13 +219,16 @@ class SightDetailsActionButtons extends StatelessWidget {
             onTap: () {},
             child: Row(
               children: [
-                SvgPicture.asset(AppAssets.calendarIcon),
+                SvgPicture.asset(
+                  AppAssets.calendarIcon,
+                  color: theme.disabledColor,
+                ),
                 const SizedBox(
                   width: 8.0,
                 ),
-                const Text(
+                Text(
                   AppStrings.schedule,
-                  style: AppTypography.text14RegularWaterloo,
+                  style: theme.textTheme.bodyText1,
                 ),
               ],
             ),
@@ -193,14 +239,14 @@ class SightDetailsActionButtons extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   AppAssets.heartIcon,
-                  color: AppColors.oxfordBlueColor,
+                  color: theme.indicatorColor,
                 ),
                 const SizedBox(
                   width: 8.0,
                 ),
-                const Text(
+                Text(
                   AppStrings.toFavorites,
-                  style: AppTypography.text14RegularWaterloo,
+                  style: theme.textTheme.bodyText2,
                 ),
               ],
             ),

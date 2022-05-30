@@ -7,4 +7,5 @@ class AppAssets {
   static const shareIcon = 'res/icons/share_icon.svg';
   static const listIcon = 'res/icons/list_icon.svg';
   static const listIconActive = 'res/icons/list_icon_active.svg';
+  static const arrowIcon = 'res/icons/arrow_icon.svg';
 }

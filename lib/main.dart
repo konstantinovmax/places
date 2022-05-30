@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/screen/home_screen.dart';
+import 'package:places/theme/app_routes.dart';
+import 'package:places/ui/screens/home_screen.dart';
+import 'package:places/ui/screens/resources/themes.dart';
+import 'package:places/ui/screens/sight_details.dart';
 
 void main() {
   runApp(const App());
@@ -10,9 +13,14 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(),
+    return MaterialApp(
       title: 'Places',
+      theme: darkTheme,
+      home: const HomeScreen(),
+      initialRoute: AppRoutes.initialRoute,
+      routes: {
+        AppRoutes.detailsRoute: (context) => const SightDetails(),
+      },
     );
   }
 }
