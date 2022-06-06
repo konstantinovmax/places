@@ -8,4 +8,11 @@ class AppAssets {
   static const listIcon = 'res/icons/list_icon.svg';
   static const listIconActive = 'res/icons/list_icon_active.svg';
   static const arrowIcon = 'res/icons/arrow_icon.svg';
+  static const checkMarkIcon = 'res/icons/check_mark_icon.svg';
+  static const hotelIcon = 'res/icons/hotel_icon.svg';
+  static const restaurantIcon = 'res/icons/restaurant_icon.svg';
+  static const specialPlaceIcon = 'res/icons/special_place_icon.svg';
+  static const parkIcon = 'res/icons/park_icon.svg';
+  static const museumIcon = 'res/icons/museum_icon.svg';
+  static const cafeIcon = 'res/icons/cafe_icon.svg';
 }
