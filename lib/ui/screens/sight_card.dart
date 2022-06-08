@@ -1,13 +1,15 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/models/sight_model.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_routes.dart';
 import 'package:places/theme/app_strings.dart';
 
 // Класс для отображения карточки с достопримечательностью
 class SightCard extends StatelessWidget {
-  final Sight sight;
+  final SightModel sight;
   final bool isHaveCalendarOrShareIcon;
   final String calendarOrShareIcon;
   final String addOrRemoveIcon;
@@ -51,7 +53,7 @@ class SightCard extends StatelessWidget {
 }
 
 class SightCardImage extends StatelessWidget {
-  final Sight sight;
+  final SightModel sight;
   final ThemeData theme;
   final bool isHaveCalendarOrShareIcon;
   final String calendarOrShareIcon;
@@ -136,7 +138,7 @@ class SightCardImage extends StatelessWidget {
 }
 
 class SightCardDescription extends StatelessWidget {
-  final Sight sight;
+  final SightModel sight;
   final ThemeData theme;
   final String calendarOrShareIcon;
 

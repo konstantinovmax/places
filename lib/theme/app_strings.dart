@@ -19,4 +19,7 @@ class AppStrings {
   static const park = 'Парк';
   static const museum = 'Музей';
   static const cafe = 'Кафе';
+  static const settings = 'Настройки';
+  static const darkTheme = 'Тёмная тема';
+  static const watchTutorial = 'Смотреть туториал';
 }

@@ -15,4 +15,7 @@ class AppAssets {
   static const parkIcon = 'res/icons/park_icon.svg';
   static const museumIcon = 'res/icons/museum_icon.svg';
   static const cafeIcon = 'res/icons/cafe_icon.svg';
+  static const settingsIcon = 'res/icons/settings_icon.svg';
+  static const settingsIconActive = 'res/icons/settings_icon_active.svg';
+  static const infoIcon = 'res/icons/info_icon.svg';
 }

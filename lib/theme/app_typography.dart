@@ -89,6 +89,14 @@ class AppTypography {
     color: AppColors.martiniqueColor,
   );
 
+  static const text16RegularWhite = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+    fontSize: 16.0,
+    height: 1.25,
+    color: AppColors.whiteColor,
+  );
+
   static const text16RegularWaterloo = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
