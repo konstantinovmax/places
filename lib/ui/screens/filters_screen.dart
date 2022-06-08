@@ -17,8 +17,8 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var myCoordinates = MyCoordinates(lat: 59.7722654, lon: 30.3239842);
-  var selectedRange = RangeValues(100, 10000);
+  var myCoordinates = MyCoordinates(lat: 59.820413, lon: 30.322472);
+  var selectedDistance = RangeValues(100.0, 10000.0);
   List<Sight> filteredPlaces = [];
   bool isHotelSelected = false;
   bool isRestaurantSelected = false;
@@ -36,6 +36,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    print(selectedDistance);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,8 +87,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
             FiltersScreenSlider(
               filteredPlaces: filteredPlaces,
               filteringFunction: filteringSightByDistance,
-              selectedRange: selectedRange,
-              updateSelectedRange: updateSelectedRange,
+              selectedDistance: selectedDistance,
+              updateSelectedDistance: updateSelectedDistance,
             ),
           ],
         ),
@@ -111,7 +112,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
       isParkSelected = false;
       isMuseumSelected = false;
       isCafeSelected = false;
+      selectedDistance = RangeValues(100.0, 10000.0);
     });
+    filteringSightByDistance();
   }
 
   void selectHotelToggler() {
@@ -150,19 +153,22 @@ class _FiltersScreenState extends State<FiltersScreen> {
     });
   }
 
-  void updateSelectedRange(RangeValues newRange) {
+  void updateSelectedDistance(RangeValues newDistance) {
     setState(() {
-      selectedRange = newRange;
+      selectedDistance = newDistance;
     });
-    filteringSightByDistance();
   }
 
   void filteringSightByDistance() {
     mocks.forEach((place) {
-      bool isNear = sightsNear(place, myCoordinates, selectedRange);
+      bool isNear = sightsNear(place, myCoordinates, selectedDistance);
       if (isNear && !filteredPlaces.contains(place)) {
         setState(() {
           filteredPlaces.add(place);
+        });
+      } else if (!isNear && filteredPlaces.contains(place)) {
+        setState(() {
+          filteredPlaces.remove(place);
         });
       }
     });
@@ -171,14 +177,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
   bool sightsNear(
     Sight sight,
     MyCoordinates myPosition,
-    RangeValues selectedRange,
+    RangeValues selectedDistance,
   ) {
-    var ky = 4000000 / 360;
+    var ky = 40000000 / 360;
     var kx = math.cos(math.pi * myPosition.lat / 180.0) * ky;
     var dx = (myPosition.lon - sight.lon).abs() * kx;
     var dy = (myPosition.lat - sight.lat).abs() * ky;
     var squareRoot = math.sqrt(dx * dx + dy * dy);
-    return squareRoot >= selectedRange.start && squareRoot <= selectedRange.end;
+    return squareRoot >= selectedDistance.start &&
+        squareRoot <= selectedDistance.end;
   }
 }
 
@@ -344,14 +351,14 @@ class FiltersScreenCategory extends StatelessWidget {
 class FiltersScreenSlider extends StatelessWidget {
   final List<Sight> filteredPlaces;
   final Function filteringFunction;
-  final RangeValues selectedRange;
-  final Function updateSelectedRange;
+  final RangeValues selectedDistance;
+  final Function updateSelectedDistance;
   const FiltersScreenSlider({
     Key? key,
     required this.filteredPlaces,
     required this.filteringFunction,
-    required this.selectedRange,
-    required this.updateSelectedRange,
+    required this.selectedDistance,
+    required this.updateSelectedDistance,
   }) : super(key: key);
 
   @override
@@ -366,7 +373,7 @@ class FiltersScreenSlider extends StatelessWidget {
               style: AppTypography.text16RegularMartinique,
             ),
             Text(
-              'От ${selectedRange.start.ceil()} до ${selectedRange.end.ceil()} м',
+              'От ${selectedDistance.start.ceil()} до ${selectedDistance.end.ceil()} м',
               style: AppTypography.text16RegularWaterloo,
             )
           ],
@@ -382,12 +389,12 @@ class FiltersScreenSlider extends StatelessWidget {
             trackHeight: 2.0,
           ),
           child: RangeSlider(
-            values: selectedRange,
-            onChanged: (newRange) {
-              updateSelectedRange(newRange);
+            values: selectedDistance,
+            onChanged: (newDistance) {
+              updateSelectedDistance(newDistance);
               filteringFunction();
             },
-            min: 100,
+            min: 0,
             max: 10000,
           ),
         ),
