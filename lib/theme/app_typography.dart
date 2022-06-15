@@ -2,6 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:places/theme/app_colors.dart';
 
 class AppTypography {
+  static const text12RegularWaterloo = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+    fontSize: 12.0,
+    height: 1.25,
+    color: AppColors.waterlooColor,
+  );
+
+  static const text12RegularOxfordBlue = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+    fontSize: 12.0,
+    height: 1.25,
+    color: AppColors.oxfordBlueColor,
+  );
+
   static const text14RegularWaterloo = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
@@ -65,12 +81,36 @@ class AppTypography {
     color: AppColors.oxfordBlueColor,
   );
 
+  static const text16RegularMartinique = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+    fontSize: 16.0,
+    height: 1.25,
+    color: AppColors.martiniqueColor,
+  );
+
+  static const text16RegularWaterloo = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+    fontSize: 16.0,
+    height: 1.25,
+    color: AppColors.waterlooColor,
+  );
+
   static const text16MediumWhite = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,
     fontSize: 16.0,
     height: 1.25,
     color: AppColors.whiteColor,
+  );
+
+  static const text16MediumFruitSalad = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w500,
+    fontSize: 16.0,
+    height: 1.25,
+    color: AppColors.fruitSaladColor,
   );
 
   static const text18MediumMartinique = TextStyle(
