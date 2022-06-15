@@ -104,7 +104,9 @@ class SightCardImage extends StatelessWidget {
                   children: [
                     if (isHaveCalendarOrShareIcon)
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          print('Button is pressed');
+                        },
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                         icon: SvgPicture.asset(calendarOrShareIcon),
@@ -115,7 +117,9 @@ class SightCardImage extends StatelessWidget {
                       width: 16.0,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        print('Button is pressed');
+                      },
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                       icon: SvgPicture.asset(addOrRemoveIcon),

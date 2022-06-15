@@ -170,7 +170,9 @@ class SightDetailsSubmitButton extends StatelessWidget {
     return SizedBox(
       height: 48.0,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          print('Button "${AppStrings.createRoute}" is pressed');
+        },
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
           backgroundColor: MaterialStateProperty.resolveWith(
@@ -216,7 +218,9 @@ class SightDetailsActionButtons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              print('Button "${AppStrings.schedule}" is pressed');
+            },
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -234,7 +238,9 @@ class SightDetailsActionButtons extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              print('Button "${AppStrings.toFavorites}" is pressed');
+            },
             child: Row(
               children: [
                 SvgPicture.asset(
