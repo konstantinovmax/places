@@ -1,5 +1,5 @@
 // Модель для достопримечательностей
-class Sight {
+class SightModel {
   final String name;
   final double lat;
   final double lon;
@@ -7,7 +7,7 @@ class Sight {
   final String details;
   final String type;
 
-  Sight({
+  SightModel({
     required this.name,
     required this.lat,
     required this.lon,

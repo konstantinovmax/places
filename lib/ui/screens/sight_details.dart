@@ -1,6 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/models/sight_model.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
 import 'package:places/theme/app_strings.dart';
@@ -11,7 +13,7 @@ class SightDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sight = ModalRoute.of(context)!.settings.arguments as Sight;
+    final sight = ModalRoute.of(context)!.settings.arguments as SightModel;
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -81,7 +83,7 @@ class SightDetails extends StatelessWidget {
 }
 
 class SightDetailsImage extends StatelessWidget {
-  final Sight sight;
+  final SightModel sight;
 
   const SightDetailsImage({Key? key, required this.sight}) : super(key: key);
 
@@ -109,7 +111,7 @@ class SightDetailsImage extends StatelessWidget {
 }
 
 class SightDetailsContent extends StatelessWidget {
-  final Sight sight;
+  final SightModel sight;
   final ThemeData theme;
 
   const SightDetailsContent({

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:places/domain/models/switch_theme_model.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
+import 'package:places/ui/screens/settings_screen.dart';
 import 'package:places/ui/screens/sight_list_screen.dart';
 import 'package:places/ui/screens/visiting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final SwitchThemeModel switchTheme;
+  const HomeScreen({Key? key, required this.switchTheme}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -22,9 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
-        children: const [
-          SightListScreen(),
-          VisitingScreen(),
+        children: [
+          const SightListScreen(),
+          const VisitingScreen(),
+          SettingsScreen(switchTheme: widget.switchTheme),
         ],
       ),
       bottomNavigationBar: DecoratedBox(
@@ -68,6 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               activeIcon: SvgPicture.asset(
                 AppAssets.heartIconActive,
+                color: theme.bottomNavigationBarTheme.selectedItemColor,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                AppAssets.settingsIcon,
+                color: theme.bottomNavigationBarTheme.unselectedItemColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                AppAssets.settingsIconActive,
                 color: theme.bottomNavigationBarTheme.selectedItemColor,
               ),
               label: '',

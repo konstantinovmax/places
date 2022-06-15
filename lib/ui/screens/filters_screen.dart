@@ -1,13 +1,16 @@
+// ignore_for_file: avoid_print
+
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/domain/my_coordinates.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/domain/models/my_coordinates_model.dart';
+import 'package:places/domain/models/sight_model.dart';
 import 'package:places/mocks.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
-import 'dart:math' as math;
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({Key? key}) : super(key: key);
@@ -17,9 +20,10 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var myCoordinates = MyCoordinates(lat: 59.820413, lon: 30.322472);
-  var selectedDistance = RangeValues(100.0, 10000.0);
-  List<Sight> filteredPlaces = [];
+  MyCoordinatesModel myCoordinates =
+      MyCoordinatesModel(lat: 59.820413, lon: 30.322472);
+  RangeValues selectedDistance = const RangeValues(100.0, 10000.0);
+  List<SightModel> filteredPlaces = [];
   bool isHotelSelected = false;
   bool isRestaurantSelected = false;
   bool isSpecialPlaceSelected = false;
@@ -51,11 +55,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              rejectCategories();
-            },
+            onPressed: rejectCategories,
             style: TextButton.styleFrom(padding: EdgeInsets.zero),
-            child: Text(
+            child: const Text(
               AppStrings.clear,
               style: AppTypography.text16MediumFruitSalad,
             ),
@@ -112,7 +114,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
       isParkSelected = false;
       isMuseumSelected = false;
       isCafeSelected = false;
-      selectedDistance = RangeValues(100.0, 10000.0);
+      selectedDistance = const RangeValues(100.0, 10000.0);
     });
     filteringSightByDistance();
   }
@@ -160,8 +162,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   void filteringSightByDistance() {
-    mocks.forEach((place) {
-      bool isNear = sightsNear(place, myCoordinates, selectedDistance);
+    for (final place in mocks) {
+      final isNear = sightsNear(place, myCoordinates, selectedDistance);
       if (isNear && !filteredPlaces.contains(place)) {
         setState(() {
           filteredPlaces.add(place);
@@ -171,19 +173,20 @@ class _FiltersScreenState extends State<FiltersScreen> {
           filteredPlaces.remove(place);
         });
       }
-    });
+    }
   }
 
   bool sightsNear(
-    Sight sight,
-    MyCoordinates myPosition,
+    SightModel sight,
+    MyCoordinatesModel myPosition,
     RangeValues selectedDistance,
   ) {
-    var ky = 40000000 / 360;
-    var kx = math.cos(math.pi * myPosition.lat / 180.0) * ky;
-    var dx = (myPosition.lon - sight.lon).abs() * kx;
-    var dy = (myPosition.lat - sight.lat).abs() * ky;
-    var squareRoot = math.sqrt(dx * dx + dy * dy);
+    const ky = 40000000 / 360;
+    final kx = math.cos(math.pi * myPosition.lat / 180.0) * ky;
+    final dx = (myPosition.lon - sight.lon).abs() * kx;
+    final dy = (myPosition.lat - sight.lat).abs() * ky;
+    final squareRoot = math.sqrt(dx * dx + dy * dy);
+
     return squareRoot >= selectedDistance.start &&
         squareRoot <= selectedDistance.end;
   }
@@ -196,12 +199,12 @@ class FiltersScreenCategories extends StatelessWidget {
   final bool isParkSelected;
   final bool isMuseumSelected;
   final bool isCafeSelected;
-  final Function selectHotelToggler;
-  final Function selectRestaurantToggler;
-  final Function selectSpecialPlaceToggler;
-  final Function selectParkToggler;
-  final Function selectMuseumToggler;
-  final Function selectCafeToggler;
+  final void Function()? selectHotelToggler;
+  final void Function()? selectRestaurantToggler;
+  final void Function()? selectSpecialPlaceToggler;
+  final void Function()? selectParkToggler;
+  final void Function()? selectMuseumToggler;
+  final void Function()? selectCafeToggler;
   const FiltersScreenCategories({
     Key? key,
     required this.isHotelSelected,
@@ -283,7 +286,7 @@ class FiltersScreenCategory extends StatelessWidget {
   final String icon;
   final String label;
   final bool isSelected;
-  final Function selectCategoryToggler;
+  final void Function()? selectCategoryToggler;
   const FiltersScreenCategory({
     Key? key,
     required this.icon,
@@ -300,10 +303,8 @@ class FiltersScreenCategory extends StatelessWidget {
       child: Column(
         children: [
           InkWell(
-            onTap: () {
-              selectCategoryToggler();
-            },
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            onTap: selectCategoryToggler,
+            borderRadius: const BorderRadius.all(Radius.circular(50.0)),
             child: SizedBox(
               width: 64.0,
               height: 64.0,
@@ -317,11 +318,11 @@ class FiltersScreenCategory extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Center(
-                        child: SvgPicture.asset(
-                      icon,
-                      color: AppColors.fruitSaladColor,
-                      fit: BoxFit.contain,
-                    )),
+                      child: SvgPicture.asset(
+                        icon,
+                        color: AppColors.fruitSaladColor,
+                      ),
+                    ),
                   ),
                   if (isSelected)
                     Align(
@@ -329,7 +330,7 @@ class FiltersScreenCategory extends StatelessWidget {
                       child: Container(
                         width: 16.0,
                         height: 16.0,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: AppColors.martiniqueColor,
                           shape: BoxShape.circle,
                         ),
@@ -349,10 +350,10 @@ class FiltersScreenCategory extends StatelessWidget {
 }
 
 class FiltersScreenSlider extends StatelessWidget {
-  final List<Sight> filteredPlaces;
-  final Function filteringFunction;
+  final List<SightModel> filteredPlaces;
+  final void Function() filteringFunction;
   final RangeValues selectedDistance;
-  final Function updateSelectedDistance;
+  final void Function(RangeValues) updateSelectedDistance;
   const FiltersScreenSlider({
     Key? key,
     required this.filteredPlaces,
@@ -368,20 +369,20 @@ class FiltersScreenSlider extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               AppStrings.distance,
               style: AppTypography.text16RegularMartinique,
             ),
             Text(
               'От ${selectedDistance.start.ceil()} до ${selectedDistance.end.ceil()} м',
               style: AppTypography.text16RegularWaterloo,
-            )
+            ),
           ],
         ),
         const SizedBox(height: 24.0),
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
-            thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8.0),
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8.0),
             overlayShape: SliderComponentShape.noOverlay,
             thumbColor: AppColors.whiteColor,
             activeTrackColor: AppColors.fruitSaladColor,
@@ -394,7 +395,6 @@ class FiltersScreenSlider extends StatelessWidget {
               updateSelectedDistance(newDistance);
               filteringFunction();
             },
-            min: 0,
             max: 10000,
           ),
         ),
@@ -405,7 +405,7 @@ class FiltersScreenSlider extends StatelessWidget {
 
 class FiltersScreenSubmitButton extends StatelessWidget {
   final ThemeData theme;
-  final List<Sight> filteredPlaces;
+  final List<SightModel> filteredPlaces;
 
   const FiltersScreenSubmitButton({
     Key? key,
