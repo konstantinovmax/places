@@ -7,7 +7,7 @@ class SightModel {
   final String details;
   final String type;
 
-  SightModel({
+  const SightModel({
     required this.name,
     required this.lat,
     required this.lon,

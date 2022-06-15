@@ -21,7 +21,7 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   MyCoordinatesModel myCoordinates =
-      MyCoordinatesModel(lat: 59.820413, lon: 30.322472);
+      const MyCoordinatesModel(lat: 59.820413, lon: 30.322472);
   RangeValues selectedDistance = const RangeValues(100.0, 10000.0);
   List<SightModel> filteredPlaces = [];
   bool isHotelSelected = false;

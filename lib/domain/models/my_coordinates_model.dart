@@ -2,7 +2,7 @@ class MyCoordinatesModel {
   final double lat;
   final double lon;
 
-  MyCoordinatesModel({
+  const MyCoordinatesModel({
     required this.lat,
     required this.lon,
   });

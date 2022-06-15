@@ -26,112 +26,114 @@ class SightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, AppRoutes.detailsRoute, arguments: sight);
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SightCardImage(
-            sight: sight,
-            theme: theme,
-            isHaveCalendarOrShareIcon: isHaveCalendarOrShareIcon,
-            calendarOrShareIcon: calendarOrShareIcon,
-            addOrRemoveIcon: addOrRemoveIcon,
+    return Stack(
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: theme.cardColor,
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          SightCardDescription(
-            sight: sight,
-            theme: theme,
-            calendarOrShareIcon: calendarOrShareIcon,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SightCardImage(sight: sight),
+              SightCardDescription(
+                sight: sight,
+                theme: theme,
+                calendarOrShareIcon: calendarOrShareIcon,
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class SightCardImage extends StatelessWidget {
-  final SightModel sight;
-  final ThemeData theme;
-  final bool isHaveCalendarOrShareIcon;
-  final String calendarOrShareIcon;
-  final String addOrRemoveIcon;
-  const SightCardImage({
-    Key? key,
-    required this.sight,
-    required this.theme,
-    required this.isHaveCalendarOrShareIcon,
-    required this.calendarOrShareIcon,
-    required this.addOrRemoveIcon,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              topRight: Radius.circular(10.0),
-            ),
-            child: Image.network(
-              sight.url,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-              loadingBuilder: (context, widget, loadingProgress) {
-                if (loadingProgress != null) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                return widget;
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10.0),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.detailsRoute,
+                  arguments: sight,
+                );
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  sight.type.toLowerCase(),
-                  style: theme.textTheme.subtitle1,
-                ),
-                Row(
-                  children: [
-                    if (isHaveCalendarOrShareIcon)
-                      IconButton(
-                        onPressed: () {
-                          print('Button is pressed');
-                        },
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        icon: SvgPicture.asset(calendarOrShareIcon),
-                      )
-                    else
-                      const SizedBox(),
-                    const SizedBox(
-                      width: 16.0,
-                    ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                sight.type.toLowerCase(),
+                style: theme.textTheme.subtitle1,
+              ),
+              Row(
+                children: [
+                  if (isHaveCalendarOrShareIcon)
                     IconButton(
                       onPressed: () {
                         print('Button is pressed');
                       },
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      icon: SvgPicture.asset(addOrRemoveIcon),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                      icon: SvgPicture.asset(calendarOrShareIcon),
+                    )
+                  else
+                    const SizedBox(),
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      print('Button is pressed');
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: SvgPicture.asset(addOrRemoveIcon),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
+      ],
+    );
+  }
+}
+
+class SightCardImage extends StatelessWidget {
+  final SightModel sight;
+  const SightCardImage({
+    Key? key,
+    required this.sight,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        ),
+        child: Image.network(
+          sight.url,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+          loadingBuilder: (context, widget, loadingProgress) {
+            if (loadingProgress != null) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return widget;
+          },
+        ),
       ),
     );
   }
@@ -153,9 +155,8 @@ class SightCardDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(10.0),
           bottomRight: Radius.circular(10.0),
         ),
