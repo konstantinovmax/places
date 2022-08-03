@@ -121,6 +121,14 @@ class AppTypography {
     color: AppColors.fruitSaladColor,
   );
 
+  static const text16MediumWaterloo = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w500,
+    fontSize: 16.0,
+    height: 1.25,
+    color: AppColors.waterlooColor,
+  );
+
   static const text18MediumMartinique = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,

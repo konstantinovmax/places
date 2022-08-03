@@ -12,4 +12,5 @@ class AppColors {
   static const charadeColor = Color(0xFF21222C);
   static const sharkColor = Color(0xFF1A1A20);
   static const pastelGreenColor = Color(0xff6ADA6F);
+  static const birghtSunColor = Color(0xffFCDD3D);
 }

@@ -18,4 +18,7 @@ class AppAssets {
   static const settingsIcon = 'res/icons/settings_icon.svg';
   static const settingsIconActive = 'res/icons/settings_icon_active.svg';
   static const infoIcon = 'res/icons/info_icon.svg';
+  static const inputDeleteIcon = 'res/icons/input_delete_icon.svg';
+  static const checkIcon = 'res/icons/check_icon.svg';
+  static const plusIcon = 'res/icons/plus_icon.svg';
 }
