@@ -4,8 +4,10 @@ import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
 
 class Textarea extends TextFormField {
-  Textarea({Key? key, TextEditingController? textController})
-      : super(
+  Textarea({
+    Key? key,
+    TextEditingController? textController,
+  }) : super(
           key: key,
           controller: textController,
           minLines: 4,

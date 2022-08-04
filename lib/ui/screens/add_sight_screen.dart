@@ -29,11 +29,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
   bool isButtonDisabled = true;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
@@ -46,6 +41,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
               InkWell(
                 onTap: () {
                   Navigator.pop(context);
+                  sightCategoriesSelected.clear();
                 },
                 child: const Text(
                   AppStrings.cancel,
@@ -64,22 +60,25 @@ class _AddSightScreenState extends State<AddSightScreen> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 24.0),
-            const AddSightScreenCategoryInput(),
-            const SizedBox(height: 24.0),
-            AddSightScreenNameInput(nameInputController: nameInputController),
-            const SizedBox(height: 24.0),
-            AddSightScreenCoordinatesInput(
-              latitudeInputController: latitudeInputController,
-              longitudeInputController: longitudeInputController,
-            ),
-            const SizedBox(height: 37.0),
-            AddSightScreenDescriptionInput(
-              descriptionInputController: descriptionInputController,
-            ),
-          ],
+        child: Form(
+          onChanged: _checkButtonStatus,
+          child: Column(
+            children: [
+              const SizedBox(height: 24.0),
+              const AddSightScreenCategoryInput(),
+              const SizedBox(height: 24.0),
+              AddSightScreenNameInput(nameInputController: nameInputController),
+              const SizedBox(height: 24.0),
+              AddSightScreenCoordinatesInput(
+                latitudeInputController: latitudeInputController,
+                longitudeInputController: longitudeInputController,
+              ),
+              const SizedBox(height: 37.0),
+              AddSightScreenDescriptionInput(
+                descriptionInputController: descriptionInputController,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: Padding(
@@ -87,24 +86,27 @@ class _AddSightScreenState extends State<AddSightScreen> {
         child: AddSightScreenSubmitButton(
           text: AppStrings.create,
           theme: theme,
-          onPressed: () {
-            mocks.add(
-              SightModel(
-                name: nameInputController.text,
-                lat: double.parse(latitudeInputController.text),
-                lon: double.parse(longitudeInputController.text),
-                url:
-                    'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-                details: descriptionInputController.text,
-                type: sightCategoriesSelected.first,
-              ),
-            );
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              AppRoutes.initialRoute,
-              (route) => false,
-            );
-          },
+          onPressed: isButtonDisabled
+              ? null
+              : () {
+                  mocks.add(
+                    SightModel(
+                      name: nameInputController.text,
+                      lat: double.parse(latitudeInputController.text),
+                      lon: double.parse(longitudeInputController.text),
+                      url:
+                          'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
+                      details: descriptionInputController.text,
+                      type: sightCategoriesSelected.first,
+                    ),
+                  );
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    AppRoutes.initialRoute,
+                    (route) => false,
+                  );
+                  sightCategoriesSelected.clear();
+                },
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -112,12 +114,17 @@ class _AddSightScreenState extends State<AddSightScreen> {
   }
 
   void _checkButtonStatus() {
-    if (nameInputController.text.length > 2 &&
+    if (sightCategoriesSelected.isNotEmpty &&
+        nameInputController.text.length > 2 &&
         latitudeInputController.text.isNotEmpty &&
         longitudeInputController.text.isNotEmpty &&
         descriptionInputController.text.length > 7) {
       setState(() {
         isButtonDisabled = false;
+      });
+    } else {
+      setState(() {
+        isButtonDisabled = true;
       });
     }
   }
@@ -319,7 +326,9 @@ class AddSightScreenDescriptionInput extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12.0),
-          Textarea(textController: descriptionInputController),
+          Textarea(
+            textController: descriptionInputController,
+          ),
         ],
       ),
     );
@@ -346,9 +355,11 @@ class AddSightScreenSubmitButton extends StatelessWidget {
         onPressed: onPressed,
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
-          backgroundColor: MaterialStateProperty.resolveWith(
-            (states) => theme.canvasColor,
-          ),
+          backgroundColor: onPressed != null
+              ? MaterialStateProperty.resolveWith(
+                  (states) => theme.canvasColor,
+                )
+              : null,
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
@@ -360,7 +371,9 @@ class AddSightScreenSubmitButton extends StatelessWidget {
           children: [
             Text(
               text.toUpperCase(),
-              style: theme.textTheme.subtitle1,
+              style: onPressed != null
+                  ? theme.textTheme.subtitle1
+                  : theme.textTheme.headline5,
             ),
           ],
         ),
