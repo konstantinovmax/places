@@ -68,7 +68,6 @@ class _AddSightScreenCategoryState extends State<AddSightScreenCategory> {
           theme: theme,
           onPressed: category != ''
               ? () {
-                  sightCategoriesSelected.clear();
                   setState(() {
                     sightCategoriesSelected.add(category);
                   });
@@ -116,6 +115,7 @@ class _AddSightScreenCategoriesListState
           children: [
             InkWell(
               onTap: () {
+                sightCategoriesSelected.clear();
                 setState(() {
                   _selectedIndex = index;
                 });
@@ -133,7 +133,10 @@ class _AddSightScreenCategoriesListState
                       sightCategories[index],
                       style: AppTypography.text16RegularMartinique,
                     ),
-                    if (widget.category == sightCategories[index])
+                    if (sightCategoriesSelected.isNotEmpty
+                        ? sightCategories[index] ==
+                            sightCategoriesSelected.first
+                        : _selectedIndex == index)
                       SvgPicture.asset(
                         AppAssets.checkIcon,
                         width: 20.0,
