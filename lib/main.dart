@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:places/domain/models/switch_theme_model.dart';
 import 'package:places/theme/app_routes.dart';
-import 'package:places/ui/screens/add_sight_screen.dart';
-import 'package:places/ui/screens/add_sight_screen_category.dart';
-import 'package:places/ui/screens/filters_screen.dart';
 import 'package:places/ui/screens/home_screen.dart';
 import 'package:places/ui/screens/resources/themes.dart';
-import 'package:places/ui/screens/sight_details.dart';
-import 'package:places/ui/screens/sight_list_screen_tab.dart';
-import 'package:places/ui/screens/sight_search_screen.dart';
 
 void main() {
   runApp(const App());

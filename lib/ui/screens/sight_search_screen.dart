@@ -164,7 +164,11 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.fromLTRB(
-                                  16.0, 0.0, 16.0, 0.0),
+                                16.0,
+                                0.0,
+                                16.0,
+                                0.0,
+                              ),
                               child: Row(
                                 children: [
                                   SizedBox(
