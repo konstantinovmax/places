@@ -19,10 +19,11 @@ class SightSearchScreen extends StatefulWidget {
 class _SightSearchScreenState extends State<SightSearchScreen> {
   final TextEditingController textController = TextEditingController();
   final List<SightModel> places = [];
-  final List<String> requestHistory = [];
+  final List<String> searchRequests = [];
 
   Timer? timer;
   bool isLoading = false;
+  bool isContains = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                     });
                   }
                   timer = Timer(const Duration(seconds: 1), () {
-                    requestHistory.add(textController.text);
+                    searchRequests.add(textController.text);
                     isLoading = false;
 
                     if (textController.text.isNotEmpty) {
@@ -64,6 +65,13 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                             .toLowerCase()
                             .contains(textController.text.toLowerCase())) {
                           searchingItems.add(item);
+                          setState(() {
+                            isContains = true;
+                          });
+                        } else {
+                          setState(() {
+                            isContains = false;
+                          });
                         }
                       }
 
@@ -139,134 +147,272 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           preferredSize: const Size.fromHeight(40.0),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 40.0),
-        child: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 6.0,
-                  color: AppColors.waterlooColor,
-                  backgroundColor: AppColors.waterlooColor.withOpacity(0.1),
+      body: FoundSights(places: places, inputText: textController.text),
+    );
+  }
+}
+
+class SearchHistory extends StatefulWidget {
+  final List<String> searchRequests;
+
+  const SearchHistory({Key? key, required this.searchRequests})
+      : super(key: key);
+
+  @override
+  State<SearchHistory> createState() => _SearchHistoryState();
+}
+
+class _SearchHistoryState extends State<SearchHistory> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 0.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppStrings.youWereLookingFor.toUpperCase(),
+            style: AppTypography.text12RegularWaterloo,
+          ),
+          const SizedBox(height: 4.0),
+          ListView.separated(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 13.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.searchRequests[index][0].toUpperCase() +
+                            widget.searchRequests[index].substring(1),
+                        style: AppTypography.text16RegularWaterloo,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.searchRequests.remove(
+                            widget.searchRequests[index],
+                          );
+                        });
+                      },
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      icon: SvgPicture.asset(
+                        AppAssets.closeIcon,
+                        color: AppColors.waterlooColor,
+                      ),
+                    ),
+                  ],
                 ),
-              )
-            : Column(
-                children: List.generate(
-                  places.length,
-                  (index) {
-                    final startIndex = places[index]
-                        .name
-                        .toLowerCase()
-                        .indexOf(textController.text);
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider(
+                height: 0.8,
+                color: AppColors.waterlooColor.withOpacity(0.56),
+              );
+            },
+            itemCount: widget.searchRequests.length,
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                widget.searchRequests.clear();
+              });
+            },
+            child: const Text(
+              AppStrings.clearSearchHistory,
+              style: AppTypography.text16MediumFruitSalad,
+            ),
+            style: ButtonStyle(
+              elevation: MaterialStateProperty.all(0),
+              padding: MaterialStateProperty.all(
+                const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 13.0),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-                    return Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                16.0,
-                                0.0,
-                                16.0,
-                                0.0,
-                              ),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 56.0,
-                                    height: 56.0,
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0),
-                                      ),
-                                      child: Image.network(
-                                        places[index].url,
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        loadingBuilder:
-                                            (context, widget, loadingProgress) {
-                                          if (loadingProgress != null) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
+class CircularProgressBar extends StatelessWidget {
+  const CircularProgressBar({Key? key}) : super(key: key);
 
-                                          return widget;
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16.0),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          text: places[index]
-                                              .name
-                                              .substring(0, startIndex),
-                                          style: AppTypography
-                                              .text16RegularMartinique,
-                                          children: [
-                                            TextSpan(
-                                              text:
-                                                  places[index].name.substring(
-                                                        startIndex,
-                                                        startIndex +
-                                                            textController
-                                                                .text.length,
-                                                      ),
-                                              style: AppTypography
-                                                  .text16BoldMartinique,
-                                            ),
-                                            TextSpan(
-                                              text:
-                                                  places[index].name.substring(
-                                                        startIndex +
-                                                            textController
-                                                                .text.length,
-                                                      ),
-                                              style: AppTypography
-                                                  .text16RegularMartinique,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8.0),
-                                      Text(
-                                        places[index].type,
-                                        style:
-                                            AppTypography.text14RegularWaterloo,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Positioned.fill(
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      AppRoutes.detailsRoute,
-                                      arguments: places[index],
-                                    );
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 6.0,
+        color: AppColors.waterlooColor,
+        backgroundColor: AppColors.waterlooColor.withOpacity(0.1),
+      ),
+    );
+  }
+}
+
+class FoundSights extends StatelessWidget {
+  final String inputText;
+  final List<SightModel> places;
+
+  const FoundSights({
+    Key? key,
+    required this.places,
+    required this.inputText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 40.0),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          final startIndex =
+              places[index].name.toLowerCase().indexOf(inputText);
+
+          return Column(
+            children: [
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 11.0),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: AspectRatio(
+                              aspectRatio: 10 / 10,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0),
+                                ),
+                                child: Image.network(
+                                  places[index].url,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder:
+                                      (context, widget, loadingProgress) {
+                                    if (loadingProgress != null) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+
+                                    return widget;
                                   },
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 22.0),
-                      ],
-                    );
-                  },
-                ),
+                          ),
+                          const SizedBox(width: 16.0),
+                          Flexible(
+                            flex: 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    text: places[index]
+                                        .name
+                                        .substring(0, startIndex),
+                                    style:
+                                        AppTypography.text16RegularMartinique,
+                                    children: [
+                                      TextSpan(
+                                        text: places[index].name.substring(
+                                              startIndex,
+                                              startIndex + inputText.length,
+                                            ),
+                                        style:
+                                            AppTypography.text16BoldMartinique,
+                                      ),
+                                      TextSpan(
+                                        text: places[index].name.substring(
+                                              startIndex + inputText.length,
+                                            ),
+                                        style: AppTypography
+                                            .text16RegularMartinique,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8.0),
+                                Text(
+                                  places[index].type,
+                                  style: AppTypography.text14RegularWaterloo,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.detailsRoute,
+                            arguments: places[index],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
+            ],
+          );
+        },
+        separatorBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Divider(
+              height: 0.8,
+              color: AppColors.waterlooColor.withOpacity(0.56),
+              indent: 74.0,
+            ),
+          );
+        },
+        itemCount: places.length,
+      ),
+    );
+  }
+}
+
+class NothingFound extends StatelessWidget {
+  const NothingFound({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            AppAssets.searchIcon,
+            width: 64.0,
+            height: 64.0,
+          ),
+          const SizedBox(height: 24.0),
+          const Text(
+            AppStrings.nothingFound,
+            style: AppTypography.text18MediumWaterloo,
+          ),
+          const SizedBox(height: 8.0),
+          const Text(
+            AppStrings.tryChangingSearchParameters,
+            style: AppTypography.text14RegularWaterloo,
+          ),
+        ],
       ),
     );
   }

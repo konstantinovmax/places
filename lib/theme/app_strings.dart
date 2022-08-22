@@ -37,4 +37,8 @@ class AppStrings {
   static const save = 'Сохранить';
   static const search = 'Поиск';
   static const youWereLookingFor = 'Вы искали';
+  static const nothingFound = 'Ничего не найдено.';
+  static const tryChangingSearchParameters =
+      'Попробуйте изменить параметры поиска';
+  static const clearSearchHistory = 'Очистить историю';
 }
