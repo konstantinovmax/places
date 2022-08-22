@@ -79,3 +79,5 @@ final List<String> sightCategories = [
 ];
 
 final List<String> sightCategoriesSelected = [];
+
+final List<SightModel> filteredPlaces = [];

@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/mocks.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
-import 'package:places/theme/app_routes.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
 import 'package:places/ui/screens/add_sight_screen.dart';

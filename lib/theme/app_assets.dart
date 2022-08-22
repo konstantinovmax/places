@@ -21,4 +21,6 @@ class AppAssets {
   static const inputDeleteIcon = 'res/icons/input_delete_icon.svg';
   static const checkIcon = 'res/icons/check_icon.svg';
   static const plusIcon = 'res/icons/plus_icon.svg';
+  static const searchIcon = 'res/icons/search_icon.svg';
+  static const filterIcon = 'res/icons/filter_icon.svg';
 }

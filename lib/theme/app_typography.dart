@@ -89,6 +89,14 @@ class AppTypography {
     color: AppColors.martiniqueColor,
   );
 
+  static const text16BoldMartinique = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w700,
+    fontSize: 16.0,
+    height: 1.25,
+    color: AppColors.martiniqueColor,
+  );
+
   static const text16RegularWhite = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,

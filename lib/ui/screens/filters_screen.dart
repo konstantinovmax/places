@@ -23,7 +23,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   MyCoordinatesModel myCoordinates =
       const MyCoordinatesModel(lat: 59.820413, lon: 30.322472);
   RangeValues selectedDistance = const RangeValues(100.0, 10000.0);
-  List<SightModel> filteredPlaces = [];
+  List<SightModel> searchingItems = [];
   bool isHotelSelected = false;
   bool isRestaurantSelected = false;
   bool isSpecialPlaceSelected = false;
@@ -87,7 +87,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             ),
             const SizedBox(height: 56.0),
             FiltersScreenSlider(
-              filteredPlaces: filteredPlaces,
+              searchingItems: searchingItems,
               filteringFunction: filteringSightByDistance,
               selectedDistance: selectedDistance,
               updateSelectedDistance: updateSelectedDistance,
@@ -99,7 +99,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: FiltersScreenSubmitButton(
           theme: theme,
-          filteredPlaces: filteredPlaces,
+          searchingItems: searchingItems,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -164,13 +164,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
   void filteringSightByDistance() {
     for (final place in mocks) {
       final isNear = sightsNear(place, myCoordinates, selectedDistance);
-      if (isNear && !filteredPlaces.contains(place)) {
+      if (isNear && !searchingItems.contains(place)) {
         setState(() {
-          filteredPlaces.add(place);
+          searchingItems.add(place);
         });
-      } else if (!isNear && filteredPlaces.contains(place)) {
+      } else if (!isNear && searchingItems.contains(place)) {
         setState(() {
-          filteredPlaces.remove(place);
+          searchingItems.remove(place);
         });
       }
     }
@@ -350,13 +350,13 @@ class FiltersScreenCategory extends StatelessWidget {
 }
 
 class FiltersScreenSlider extends StatelessWidget {
-  final List<SightModel> filteredPlaces;
+  final List<SightModel> searchingItems;
   final void Function() filteringFunction;
   final RangeValues selectedDistance;
   final void Function(RangeValues) updateSelectedDistance;
   const FiltersScreenSlider({
     Key? key,
-    required this.filteredPlaces,
+    required this.searchingItems,
     required this.filteringFunction,
     required this.selectedDistance,
     required this.updateSelectedDistance,
@@ -403,28 +403,37 @@ class FiltersScreenSlider extends StatelessWidget {
   }
 }
 
-class FiltersScreenSubmitButton extends StatelessWidget {
+class FiltersScreenSubmitButton extends StatefulWidget {
   final ThemeData theme;
-  final List<SightModel> filteredPlaces;
+  final List<SightModel> searchingItems;
 
   const FiltersScreenSubmitButton({
     Key? key,
     required this.theme,
-    required this.filteredPlaces,
+    required this.searchingItems,
   }) : super(key: key);
 
+  @override
+  State<FiltersScreenSubmitButton> createState() =>
+      _FiltersScreenSubmitButtonState();
+}
+
+class _FiltersScreenSubmitButtonState extends State<FiltersScreenSubmitButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 48.0,
       child: ElevatedButton(
         onPressed: () {
-          print('Button "${AppStrings.createRoute}" is pressed');
+          filteredPlaces
+            ..clear()
+            ..addAll(widget.searchingItems);
+          Navigator.pop(context);
         },
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
           backgroundColor: MaterialStateProperty.resolveWith(
-            (states) => theme.canvasColor,
+            (states) => widget.theme.canvasColor,
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
@@ -436,8 +445,8 @@ class FiltersScreenSubmitButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${AppStrings.show.toUpperCase()} (${filteredPlaces.length})',
-              style: theme.textTheme.subtitle1,
+              '${AppStrings.show.toUpperCase()} (${widget.searchingItems.length})',
+              style: widget.theme.textTheme.subtitle1,
             ),
           ],
         ),

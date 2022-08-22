@@ -2,7 +2,8 @@ class AppStrings {
   static const createRoute = 'Построить маршрут';
   static const schedule = 'Запланировать';
   static const toFavorites = 'В избранное';
-  static const listOfInterestingPlaces = 'Список\nинтересных мест';
+  static const listOfInterestingPlaces = 'Список интересных мест';
+  static const listOfInterestingPlaces2 = 'Список\nинтересных мест';
   static const favorites = 'Избранное';
   static const wantToVisit = 'Хочу посетить';
   static const alreadyVisited = 'Посещенные места';
@@ -34,4 +35,6 @@ class AppStrings {
   static const enterTheText = 'Введите текст';
   static const create = 'Создать';
   static const save = 'Сохранить';
+  static const search = 'Поиск';
+  static const youWereLookingFor = 'Вы искали';
 }
