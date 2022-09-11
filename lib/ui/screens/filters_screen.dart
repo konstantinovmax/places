@@ -33,14 +33,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   void initState() {
-    filteringSightByDistance();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    print(selectedDistance);
 
     return Scaffold(
       appBar: AppBar(

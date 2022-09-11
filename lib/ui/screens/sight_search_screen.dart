@@ -24,14 +24,26 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   Timer? timer;
   bool isLoading = false;
   bool isContains = false;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final args = ModalRoute.of(context)!.settings.arguments as List<SightModel>;
 
+    if (searchRequests.isEmpty) _selectedIndex = 0;
+
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset(
+            AppAssets.arrowIcon,
+            color: AppColors.martiniqueColor,
+          ),
+        ),
         title: Text(
           AppStrings.listOfInterestingPlaces,
           style: theme.textTheme.headline6,
@@ -45,8 +57,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
               height: 40.0,
               child: TextField(
                 autofocus: true,
-                onChanged: (_) {
+                onChanged: (text) {
                   isLoading = true;
+
+                  if (isLoading) {
+                    _selectedIndex = 4;
+                  }
 
                   if (timer != null) {
                     setState(() {
@@ -54,11 +70,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                     });
                   }
                   timer = Timer(const Duration(seconds: 1), () {
-                    searchRequests.add(textController.text);
                     isLoading = false;
 
                     if (textController.text.isNotEmpty) {
                       final searchingItems = <SightModel>[];
+
+                      searchRequests.add(textController.text);
 
                       for (final item in args) {
                         if (item.name
@@ -66,11 +83,11 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                             .contains(textController.text.toLowerCase())) {
                           searchingItems.add(item);
                           setState(() {
-                            isContains = true;
+                            _selectedIndex = 2;
                           });
                         } else {
                           setState(() {
-                            isContains = false;
+                            _selectedIndex = 3;
                           });
                         }
                       }
@@ -81,7 +98,10 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                           ..addAll(searchingItems);
                       });
                     } else {
-                      setState(places.clear);
+                      setState(() {
+                        places.clear();
+                        _selectedIndex = 1;
+                      });
                     }
                   });
                 },
@@ -147,111 +167,33 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           preferredSize: const Size.fromHeight(40.0),
         ),
       ),
-      body: FoundSights(places: places, inputText: textController.text),
-    );
-  }
-}
-
-class SearchHistory extends StatefulWidget {
-  final List<String> searchRequests;
-
-  const SearchHistory({Key? key, required this.searchRequests})
-      : super(key: key);
-
-  @override
-  State<SearchHistory> createState() => _SearchHistoryState();
-}
-
-class _SearchHistoryState extends State<SearchHistory> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 0.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: IndexedStack(
+        index: _selectedIndex,
         children: [
-          Text(
-            AppStrings.youWereLookingFor.toUpperCase(),
-            style: AppTypography.text12RegularWaterloo,
+          const SizedBox(),
+          SearchHistory(
+            searchRequests: searchRequests,
+            removeItem: _removeItemFromSearchHistory,
+            removeItems: _removeAllItems,
           ),
-          const SizedBox(height: 4.0),
-          ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 13.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        widget.searchRequests[index][0].toUpperCase() +
-                            widget.searchRequests[index].substring(1),
-                        style: AppTypography.text16RegularWaterloo,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          widget.searchRequests.remove(
-                            widget.searchRequests[index],
-                          );
-                        });
-                      },
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      icon: SvgPicture.asset(
-                        AppAssets.closeIcon,
-                        color: AppColors.waterlooColor,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return Divider(
-                height: 0.8,
-                color: AppColors.waterlooColor.withOpacity(0.56),
-              );
-            },
-            itemCount: widget.searchRequests.length,
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                widget.searchRequests.clear();
-              });
-            },
-            child: const Text(
-              AppStrings.clearSearchHistory,
-              style: AppTypography.text16MediumFruitSalad,
-            ),
-            style: ButtonStyle(
-              elevation: MaterialStateProperty.all(0),
-              padding: MaterialStateProperty.all(
-                const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 13.0),
-              ),
-            ),
-          ),
+          FoundSights(places: places, inputText: textController.text),
+          const NothingFound(),
+          const CircularProgressBar(),
         ],
       ),
     );
   }
-}
 
-class CircularProgressBar extends StatelessWidget {
-  const CircularProgressBar({Key? key}) : super(key: key);
+  void _removeItemFromSearchHistory(int index) {
+    setState(() {
+      searchRequests.remove(
+        searchRequests[index],
+      );
+    });
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(
-        strokeWidth: 6.0,
-        color: AppColors.waterlooColor,
-        backgroundColor: AppColors.waterlooColor.withOpacity(0.1),
-      ),
-    );
+  void _removeAllItems() {
+    setState(searchRequests.clear);
   }
 }
 
@@ -273,7 +215,7 @@ class FoundSights extends StatelessWidget {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           final startIndex =
-              places[index].name.toLowerCase().indexOf(inputText);
+              places[index].name.toLowerCase().indexOf(inputText.toLowerCase());
 
           return Column(
             children: [
@@ -315,32 +257,35 @@ class FoundSights extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RichText(
-                                  text: TextSpan(
-                                    text: places[index]
-                                        .name
-                                        .substring(0, startIndex),
-                                    style:
-                                        AppTypography.text16RegularMartinique,
-                                    children: [
-                                      TextSpan(
-                                        text: places[index].name.substring(
-                                              startIndex,
-                                              startIndex + inputText.length,
-                                            ),
-                                        style:
-                                            AppTypography.text16BoldMartinique,
-                                      ),
-                                      TextSpan(
-                                        text: places[index].name.substring(
-                                              startIndex + inputText.length,
-                                            ),
-                                        style: AppTypography
-                                            .text16RegularMartinique,
-                                      ),
-                                    ],
+                                if (startIndex == -1)
+                                  Text(places[index].name)
+                                else
+                                  RichText(
+                                    text: TextSpan(
+                                      text: places[index]
+                                          .name
+                                          .substring(0, startIndex),
+                                      style:
+                                          AppTypography.text16RegularMartinique,
+                                      children: [
+                                        TextSpan(
+                                          text: places[index].name.substring(
+                                                startIndex,
+                                                startIndex + inputText.length,
+                                              ),
+                                          style: AppTypography
+                                              .text16BoldMartinique,
+                                        ),
+                                        TextSpan(
+                                          text: places[index].name.substring(
+                                                startIndex + inputText.length,
+                                              ),
+                                          style: AppTypography
+                                              .text16RegularMartinique,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
                                 const SizedBox(height: 8.0),
                                 Text(
                                   places[index].type,
@@ -388,6 +333,88 @@ class FoundSights extends StatelessWidget {
   }
 }
 
+class SearchHistory extends StatelessWidget {
+  final List<String> searchRequests;
+  final void Function(int) removeItem;
+  final void Function() removeItems;
+
+  const SearchHistory({
+    Key? key,
+    required this.searchRequests,
+    required this.removeItem,
+    required this.removeItems,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 0.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppStrings.youWereLookingFor.toUpperCase(),
+            style: AppTypography.text12RegularWaterloo,
+          ),
+          const SizedBox(height: 4.0),
+          ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 13.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        searchRequests[index][0].toUpperCase() +
+                            searchRequests[index].substring(1).toLowerCase(),
+                        style: AppTypography.text16RegularWaterloo,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        removeItem(index);
+                      },
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      icon: SvgPicture.asset(
+                        AppAssets.closeIcon,
+                        color: AppColors.waterlooColor,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider(
+                height: 0.8,
+                color: AppColors.waterlooColor.withOpacity(0.56),
+              );
+            },
+            itemCount: searchRequests.length,
+          ),
+          TextButton(
+            onPressed: removeItems,
+            child: const Text(
+              AppStrings.clearSearchHistory,
+              style: AppTypography.text16MediumFruitSalad,
+            ),
+            style: ButtonStyle(
+              elevation: MaterialStateProperty.all(0),
+              padding: MaterialStateProperty.all(
+                const EdgeInsets.fromLTRB(0.0, 13.0, 0.0, 13.0),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class NothingFound extends StatelessWidget {
   const NothingFound({Key? key}) : super(key: key);
 
@@ -413,6 +440,21 @@ class NothingFound extends StatelessWidget {
             style: AppTypography.text14RegularWaterloo,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CircularProgressBar extends StatelessWidget {
+  const CircularProgressBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 6.0,
+        color: AppColors.waterlooColor,
+        backgroundColor: AppColors.waterlooColor.withOpacity(0.1),
       ),
     );
   }
