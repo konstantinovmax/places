@@ -8,6 +8,7 @@ import 'package:places/theme/app_colors.dart';
 import 'package:places/theme/app_routes.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
+import 'package:places/ui/screens/widgets/search_bar.dart';
 
 class SightSearchScreen extends StatefulWidget {
   const SightSearchScreen({Key? key}) : super(key: key);
@@ -23,7 +24,6 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   Timer? timer;
   bool isLoading = false;
-  bool isContains = false;
   int _selectedIndex = 0;
 
   @override
@@ -53,115 +53,13 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
         bottom: PreferredSize(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: SizedBox(
-              height: 40.0,
-              child: TextField(
-                autofocus: true,
-                onChanged: (text) {
-                  isLoading = true;
-
-                  if (isLoading) {
-                    _selectedIndex = 4;
-                  }
-
-                  if (timer != null) {
-                    setState(() {
-                      timer?.cancel();
-                    });
-                  }
-                  timer = Timer(const Duration(seconds: 1), () {
-                    isLoading = false;
-
-                    if (textController.text.isNotEmpty) {
-                      final searchingItems = <SightModel>[];
-
-                      searchRequests.add(textController.text);
-
-                      for (final item in args) {
-                        if (item.name
-                            .toLowerCase()
-                            .contains(textController.text.toLowerCase())) {
-                          searchingItems.add(item);
-                          setState(() {
-                            _selectedIndex = 2;
-                          });
-                        } else {
-                          setState(() {
-                            _selectedIndex = 3;
-                          });
-                        }
-                      }
-
-                      setState(() {
-                        places
-                          ..clear()
-                          ..addAll(searchingItems);
-                      });
-                    } else {
-                      setState(() {
-                        places.clear();
-                        _selectedIndex = 1;
-                      });
-                    }
-                  });
-                },
-                decoration: InputDecoration(
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: SvgPicture.asset(AppAssets.searchIcon),
-                  ),
-                  prefixIconConstraints: const BoxConstraints(
-                    minWidth: 24.0,
-                    minHeight: 24.0,
-                  ),
-                  suffixIcon: textController.text.isNotEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: () {
-                              setState(() {
-                                textController.clear();
-                                places.clear();
-                              });
-                            },
-                            icon: SvgPicture.asset(AppAssets.inputDeleteIcon),
-                          ),
-                        )
-                      : null,
-                  suffixIconConstraints: const BoxConstraints(
-                    minWidth: 24.0,
-                    minHeight: 24.0,
-                  ),
-                  filled: true,
-                  fillColor: AppColors.wildSandColor,
-                  hintText: AppStrings.search,
-                  hintStyle: AppTypography.text16RegularWaterloo,
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                  disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
-                ),
-                style: AppTypography.text16RegularMartinique,
-                textInputAction: TextInputAction.next,
-                controller: textController,
-              ),
+            child: SearchBar(
+              onChanged: (text) {
+                _onChanged(text, args);
+              },
+              isTextControllerNotEmpty: textController.text.isNotEmpty,
+              clearTextController: _clearTextController,
+              textController: textController,
             ),
           ),
           preferredSize: const Size.fromHeight(40.0),
@@ -194,6 +92,59 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
   void _removeAllItems() {
     setState(searchRequests.clear);
+  }
+
+  void _onChanged(String text, List<SightModel> args) {
+    isLoading = true;
+
+    if (isLoading) {
+      _selectedIndex = 4;
+    }
+
+    if (timer != null) {
+      setState(() {
+        timer?.cancel();
+      });
+    }
+
+    timer = Timer(const Duration(seconds: 1), () {
+      isLoading = false;
+
+      if (textController.text.isNotEmpty) {
+        final searchingItems = <SightModel>[];
+
+        searchRequests.add(text);
+
+        for (final item in args) {
+          final searchingItem = item.name.toLowerCase();
+          final inputValue = text.toLowerCase();
+
+          if (searchingItem.contains(inputValue)) {
+            searchingItems.add(item);
+          }
+
+          setState(() {
+            places
+              ..clear()
+              ..addAll(searchingItems);
+            _selectedIndex = places.isNotEmpty ? 2 : 3;
+          });
+        }
+      } else {
+        setState(() {
+          places.clear();
+          _selectedIndex = 1;
+        });
+      }
+    });
+  }
+
+  void _clearTextController() {
+    setState(() {
+      textController.clear();
+      places.clear();
+      _selectedIndex = 1;
+    });
   }
 }
 
