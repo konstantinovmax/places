@@ -20,13 +20,7 @@ class SightListScreen extends StatefulWidget {
 
 class _SightListScreenState extends State<SightListScreen> {
   final TextEditingController textController = TextEditingController();
-  List<SightModel> places = [];
-
-  @override
-  void initState() {
-    places = mocks;
-    super.initState();
-  }
+  List<SightModel> places = mocks;
 
   @override
   Widget build(BuildContext context) {
