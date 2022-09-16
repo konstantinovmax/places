@@ -4,7 +4,7 @@ import 'package:places/domain/models/switch_theme_model.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_colors.dart';
 import 'package:places/ui/screens/settings_screen.dart';
-import 'package:places/ui/screens/sight_list_screen.dart';
+import 'package:places/ui/screens/sight_list_screen_tab.dart';
 import 'package:places/ui/screens/visiting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          const SightListScreen(),
+          const SightListScreenTab(),
           const VisitingScreen(),
           SettingsScreen(switchTheme: widget.switchTheme),
         ],

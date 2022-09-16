@@ -115,20 +115,18 @@ class _AddSightScreenState extends State<AddSightScreen> {
     );
   }
 
-  void _checkButtonStatus() {
-    if (sightCategoriesSelected.isNotEmpty &&
+  bool _isButtonDisabled() {
+    return sightCategoriesSelected.isNotEmpty &&
         nameInputController.text.length > 2 &&
         latitudeInputController.text.isNotEmpty &&
         longitudeInputController.text.isNotEmpty &&
-        descriptionInputController.text.length > 7) {
-      setState(() {
-        isButtonDisabled = false;
-      });
-    } else {
-      setState(() {
-        isButtonDisabled = true;
-      });
-    }
+        descriptionInputController.text.length > 7;
+  }
+
+  void _checkButtonStatus() {
+    setState(() {
+      isButtonDisabled = !_isButtonDisabled();
+    });
   }
 }
 
