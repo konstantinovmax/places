@@ -65,14 +65,9 @@ class _AddSightScreenCategoryState extends State<AddSightScreenCategory> {
         child: AddSightScreenSubmitButton(
           text: AppStrings.save,
           theme: theme,
-          onPressed: category != ''
-              ? () {
-                  setState(() {
-                    sightCategoriesSelected.add(category);
-                  });
-                  Navigator.pop(context);
-                }
-              : null,
+          onPressed: () {
+            _onCreateNewPlace(category);
+          },
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -83,6 +78,14 @@ class _AddSightScreenCategoryState extends State<AddSightScreenCategory> {
     setState(() {
       category = cat;
     });
+  }
+
+  void _onCreateNewPlace(String category) {
+    if (category.isEmpty) return;
+    setState(() {
+      sightCategoriesSelected.add(category);
+    });
+    Navigator.pop(context);
   }
 }
 

@@ -65,16 +65,18 @@ class _AddSightScreenState extends State<AddSightScreen> {
           child: Column(
             children: [
               const SizedBox(height: 24.0),
-              const AddSightScreenCategoryInput(),
+              const _AddSightScreenCategoryInput(),
               const SizedBox(height: 24.0),
-              AddSightScreenNameInput(nameInputController: nameInputController),
+              _AddSightScreenNameInput(
+                nameInputController: nameInputController,
+              ),
               const SizedBox(height: 24.0),
-              AddSightScreenCoordinatesInput(
+              _AddSightScreenCoordinatesInput(
                 latitudeInputController: latitudeInputController,
                 longitudeInputController: longitudeInputController,
               ),
               const SizedBox(height: 37.0),
-              AddSightScreenDescriptionInput(
+              _AddSightScreenDescriptionInput(
                 descriptionInputController: descriptionInputController,
               ),
             ],
@@ -130,16 +132,16 @@ class _AddSightScreenState extends State<AddSightScreen> {
   }
 }
 
-class AddSightScreenCategoryInput extends StatefulWidget {
-  const AddSightScreenCategoryInput({Key? key}) : super(key: key);
+class _AddSightScreenCategoryInput extends StatefulWidget {
+  const _AddSightScreenCategoryInput({Key? key}) : super(key: key);
 
   @override
-  State<AddSightScreenCategoryInput> createState() =>
-      _AddSightScreenCategoryInputState();
+  State<_AddSightScreenCategoryInput> createState() =>
+      __AddSightScreenCategoryInputState();
 }
 
-class _AddSightScreenCategoryInputState
-    extends State<AddSightScreenCategoryInput> {
+class __AddSightScreenCategoryInputState
+    extends State<_AddSightScreenCategoryInput> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -205,10 +207,10 @@ class _AddSightScreenCategoryInputState
   }
 }
 
-class AddSightScreenNameInput extends StatelessWidget {
+class _AddSightScreenNameInput extends StatelessWidget {
   final TextEditingController nameInputController;
 
-  const AddSightScreenNameInput({
+  const _AddSightScreenNameInput({
     Key? key,
     required this.nameInputController,
   }) : super(key: key);
@@ -235,11 +237,11 @@ class AddSightScreenNameInput extends StatelessWidget {
   }
 }
 
-class AddSightScreenCoordinatesInput extends StatelessWidget {
+class _AddSightScreenCoordinatesInput extends StatelessWidget {
   final TextEditingController latitudeInputController;
   final TextEditingController longitudeInputController;
 
-  const AddSightScreenCoordinatesInput({
+  const _AddSightScreenCoordinatesInput({
     Key? key,
     required this.latitudeInputController,
     required this.longitudeInputController,
@@ -303,10 +305,10 @@ class AddSightScreenCoordinatesInput extends StatelessWidget {
   }
 }
 
-class AddSightScreenDescriptionInput extends StatelessWidget {
+class _AddSightScreenDescriptionInput extends StatelessWidget {
   final TextEditingController descriptionInputController;
 
-  const AddSightScreenDescriptionInput({
+  const _AddSightScreenDescriptionInput({
     Key? key,
     required this.descriptionInputController,
   }) : super(key: key);
