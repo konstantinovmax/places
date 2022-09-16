@@ -68,3 +68,14 @@ final List<SightModel> mocks = [
     type: 'Памятник',
   ),
 ];
+
+final List<String> sightCategories = [
+  'Отель',
+  'Ресторан',
+  'Особое место',
+  'Парк',
+  'Музей',
+  'Кафе',
+];
+
+final List<String> sightCategoriesSelected = [];

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/mocks.dart';
 import 'package:places/theme/app_assets.dart';
+import 'package:places/theme/app_colors.dart';
+import 'package:places/theme/app_routes.dart';
 import 'package:places/theme/app_strings.dart';
+import 'package:places/theme/app_typography.dart';
 import 'package:places/ui/screens/sight_card.dart';
 
 // Экран для отображения списка карточек с достопримечательностями
@@ -56,6 +60,42 @@ class _SightListScreenState extends State<SightListScreen> {
           ),
         ),
       ),
+      floatingActionButton: Container(
+        width: 177.0,
+        height: 48.0,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [AppColors.birghtSunColor, AppColors.fruitSaladColor],
+          ),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: ElevatedButton(
+          style: ButtonStyle(
+            elevation: MaterialStateProperty.all(0),
+            backgroundColor: MaterialStateProperty.all(Colors.transparent),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50.0),
+              ),
+            ),
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.addSightScreenRoute);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(AppAssets.plusIcon),
+              const SizedBox(width: 8.0),
+              Text(
+                AppStrings.newPlace.toUpperCase(),
+                style: AppTypography.text14BoldWhite,
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

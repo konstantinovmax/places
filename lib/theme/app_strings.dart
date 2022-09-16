@@ -22,4 +22,16 @@ class AppStrings {
   static const settings = 'Настройки';
   static const darkTheme = 'Тёмная тема';
   static const watchTutorial = 'Смотреть туториал';
+  static const newPlace = 'Новое место';
+  static const cancel = 'Отмена';
+  static const category = 'Категория';
+  static const notSelected = 'Не выбрано';
+  static const name = 'Название';
+  static const latitude = 'Широта';
+  static const longitude = 'Долгота';
+  static const pointOnTheMap = 'Указать на карте';
+  static const description = 'Описание';
+  static const enterTheText = 'Введите текст';
+  static const create = 'Создать';
+  static const save = 'Сохранить';
 }
