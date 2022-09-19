@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/models/sight_model.dart';
@@ -26,7 +28,15 @@ class _AddSightScreenState extends State<AddSightScreen> {
       TextEditingController();
   final TextEditingController descriptionInputController =
       TextEditingController();
+  final List<Widget> _imagesOfPlaces = [];
   bool isButtonDisabled = true;
+  int imageNumber = 1;
+
+  @override
+  void initState() {
+    _imagesOfPlaces.add(_addPlaceImageWidget());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +73,14 @@ class _AddSightScreenState extends State<AddSightScreen> {
         child: Form(
           onChanged: _checkButtonStatus,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: _imagesOfPlaces,
+                ),
+              ),
               const SizedBox(height: 24.0),
               const _AddSightScreenCategoryInput(),
               const SizedBox(height: 24.0),
@@ -127,6 +144,78 @@ class _AddSightScreenState extends State<AddSightScreen> {
     setState(() {
       isButtonDisabled = !_isButtonDisabled();
     });
+  }
+
+  Widget _addPlaceImageWidget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _imagesOfPlaces.add(_placeImageWidget(ValueKey(imageNumber++)));
+          });
+        },
+        child: Container(
+          width: 72.0,
+          height: 72.0,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.fruitSaladColor.withOpacity(0.48),
+              width: 2.0,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SvgPicture.asset(
+              AppAssets.plusIcon,
+              color: AppColors.fruitSaladColor,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _placeImageWidget(Key key) {
+    return Padding(
+      key: key,
+      padding: const EdgeInsets.only(right: 16.0),
+      child: SizedBox(
+        width: 72.0,
+        height: 72.0,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  AppAssets.defaultImage,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: 4.0,
+                right: 4.0,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () {
+                    final index =
+                        _imagesOfPlaces.indexWhere((image) => image.key == key);
+
+                    setState(() {
+                      _imagesOfPlaces.removeAt(index);
+                    });
+                  },
+                  icon: SvgPicture.asset(AppAssets.inputDeleteIcon),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

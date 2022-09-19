@@ -57,7 +57,10 @@ class _InputWithSuffixState extends State<InputWithSuffix> {
                       widget.textController.clear();
                     });
                   },
-                  icon: SvgPicture.asset(AppAssets.inputDeleteIcon),
+                  icon: SvgPicture.asset(
+                    AppAssets.inputDeleteIcon,
+                    color: AppColors.martiniqueColor,
+                  ),
                 )
               : null,
           suffixIconConstraints: const BoxConstraints(
