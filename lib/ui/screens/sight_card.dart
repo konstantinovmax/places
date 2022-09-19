@@ -13,6 +13,7 @@ class SightCard extends StatelessWidget {
   final bool isHaveCalendarOrShareIcon;
   final String calendarOrShareIcon;
   final String addOrRemoveIcon;
+  final void Function()? onDeletePlace;
 
   const SightCard({
     Key? key,
@@ -20,6 +21,7 @@ class SightCard extends StatelessWidget {
     required this.isHaveCalendarOrShareIcon,
     required this.calendarOrShareIcon,
     required this.addOrRemoveIcon,
+    this.onDeletePlace,
   }) : super(key: key);
 
   @override
@@ -87,9 +89,7 @@ class SightCard extends StatelessWidget {
                     width: 16.0,
                   ),
                   IconButton(
-                    onPressed: () {
-                      print('Button is pressed');
-                    },
+                    onPressed: onDeletePlace,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     icon: SvgPicture.asset(addOrRemoveIcon),

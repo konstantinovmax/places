@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:places/domain/models/sight_model.dart';
 import 'package:places/mocks.dart';
 import 'package:places/theme/app_assets.dart';
 import 'package:places/theme/app_strings.dart';
 import 'package:places/theme/app_typography.dart';
 import 'package:places/ui/screens/sight_card.dart';
 
-class VisitingScreen extends StatelessWidget {
+class VisitingScreen extends StatefulWidget {
   const VisitingScreen({Key? key}) : super(key: key);
+
+  @override
+  State<VisitingScreen> createState() => _VisitingScreenState();
+}
+
+class _VisitingScreenState extends State<VisitingScreen> {
+  List<SightModel> wantToVisitPlaces = [];
+  List<SightModel> alreadyVisitedPlaces = [];
+
+  @override
+  void initState() {
+    wantToVisitPlaces.addAll(mocks);
+    alreadyVisitedPlaces.addAll(mocks);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,16 +87,23 @@ class VisitingScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
               child: Column(
                 children: List.generate(
-                  mocks.length,
+                  wantToVisitPlaces.length,
                   (index) => Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: AspectRatio(
                       aspectRatio: 16 / 9,
                       child: SightCard(
-                        sight: mocks[mocks.length - index - 1],
+                        sight: wantToVisitPlaces[
+                            wantToVisitPlaces.length - index - 1],
                         isHaveCalendarOrShareIcon: true,
                         calendarOrShareIcon: AppAssets.calendarIcon,
                         addOrRemoveIcon: AppAssets.closeIcon,
+                        onDeletePlace: () {
+                          _onDeletePlace(
+                            wantToVisitPlaces.length - index - 1,
+                            wantToVisitPlaces,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -91,16 +114,19 @@ class VisitingScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
               child: Column(
                 children: List.generate(
-                  mocks.length,
+                  alreadyVisitedPlaces.length,
                   (index) => Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: AspectRatio(
                       aspectRatio: 16 / 9,
                       child: SightCard(
-                        sight: mocks[index],
+                        sight: alreadyVisitedPlaces[index],
                         isHaveCalendarOrShareIcon: true,
                         calendarOrShareIcon: AppAssets.shareIcon,
                         addOrRemoveIcon: AppAssets.closeIcon,
+                        onDeletePlace: () {
+                          _onDeletePlace(index, alreadyVisitedPlaces);
+                        },
                       ),
                     ),
                   ),
@@ -111,5 +137,11 @@ class VisitingScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onDeletePlace(int index, List<SightModel> places) {
+    setState(() {
+      places.removeAt(index);
+    });
   }
 }
