@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/models/sight_model.dart';
@@ -34,7 +32,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
   @override
   void initState() {
-    _imagesOfPlaces.add(_addPlaceImageWidget());
+    _imagesOfPlaces.add(_AddImagePlaceWidget(
+      onAddImagePlace: _onAddImagePlace,
+    ));
     super.initState();
   }
 
@@ -75,6 +75,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 24.0),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -146,15 +147,37 @@ class _AddSightScreenState extends State<AddSightScreen> {
     });
   }
 
-  Widget _addPlaceImageWidget() {
+  void _onAddImagePlace() {
+    setState(() {
+      _imagesOfPlaces.add(_ImagePlaceWidget(
+        key: ValueKey(imageNumber++),
+        onDeleteImagePlace: _onDeleteImagePlace,
+      ));
+    });
+  }
+
+  void _onDeleteImagePlace(Key key) {
+    setState(() {
+      final index = _imagesOfPlaces.indexWhere((image) => image.key == key);
+      _imagesOfPlaces.removeAt(index);
+    });
+  }
+}
+
+class _AddImagePlaceWidget extends StatelessWidget {
+  final void Function()? onAddImagePlace;
+
+  const _AddImagePlaceWidget({
+    Key? key,
+    required this.onAddImagePlace,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _imagesOfPlaces.add(_placeImageWidget(ValueKey(imageNumber++)));
-          });
-        },
+        onTap: onAddImagePlace,
         child: Container(
           width: 72.0,
           height: 72.0,
@@ -176,42 +199,66 @@ class _AddSightScreenState extends State<AddSightScreen> {
       ),
     );
   }
+}
 
-  Widget _placeImageWidget(Key key) {
+class _ImagePlaceWidget extends StatelessWidget {
+  final void Function(Key) onDeleteImagePlace;
+
+  const _ImagePlaceWidget({
+    required Key key,
+    required this.onDeleteImagePlace,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      key: key,
       padding: const EdgeInsets.only(right: 16.0),
-      child: SizedBox(
-        width: 72.0,
-        height: 72.0,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Image.asset(
-                  AppAssets.defaultImage,
-                  fit: BoxFit.cover,
-                ),
+      child: Dismissible(
+        direction: DismissDirection.up,
+        background: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            RotatedBox(
+              quarterTurns: 1,
+              child: SvgPicture.asset(
+                AppAssets.arrowIcon,
+                color: AppColors.martiniqueColor,
               ),
-              Positioned(
-                top: 4.0,
-                right: 4.0,
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  onPressed: () {
-                    final index =
-                        _imagesOfPlaces.indexWhere((image) => image.key == key);
-
-                    setState(() {
-                      _imagesOfPlaces.removeAt(index);
-                    });
-                  },
-                  icon: SvgPicture.asset(AppAssets.inputDeleteIcon),
+            ),
+            const SizedBox(height: 7.0),
+          ],
+        ),
+        key: key ?? const Key('1'),
+        onDismissed: (_) {
+          onDeleteImagePlace(key ?? const Key('1'));
+        },
+        child: SizedBox(
+          width: 72.0,
+          height: 72.0,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.asset(
+                    AppAssets.defaultImage,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-            ],
+                Positioned(
+                  top: 4.0,
+                  right: 4.0,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () {
+                      onDeleteImagePlace(key ?? const Key('1'));
+                    },
+                    icon: SvgPicture.asset(AppAssets.inputDeleteIcon),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
