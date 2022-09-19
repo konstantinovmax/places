@@ -83,54 +83,75 @@ class _VisitingScreenState extends State<VisitingScreen> {
         ),
         body: TabBarView(
           children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
-              child: Column(
-                children: List.generate(
-                  wantToVisitPlaces.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: SightCard(
-                        sight: wantToVisitPlaces[
-                            wantToVisitPlaces.length - index - 1],
-                        isHaveCalendarOrShareIcon: true,
-                        calendarOrShareIcon: AppAssets.calendarIcon,
-                        addOrRemoveIcon: AppAssets.closeIcon,
-                        onDeletePlace: () {
-                          _onDeletePlace(
-                            wantToVisitPlaces.length - index - 1,
-                            wantToVisitPlaces,
-                          );
-                        },
-                      ),
+            Theme(
+              data: Theme.of(context).copyWith(
+                canvasColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+              ),
+              child: ReorderableListView.builder(
+                padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
+                itemCount: wantToVisitPlaces.length,
+                itemBuilder: (context, index) => Padding(
+                  key: ValueKey(index),
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: SightCard(
+                      sight: wantToVisitPlaces[index],
+                      isHaveCalendarOrShareIcon: true,
+                      calendarOrShareIcon: AppAssets.calendarIcon,
+                      addOrRemoveIcon: AppAssets.closeIcon,
+                      onDeletePlace: () {
+                        _onDeletePlace(
+                          index,
+                          wantToVisitPlaces,
+                        );
+                      },
                     ),
                   ),
                 ),
+                onReorder: (oldIndex, newIndex) {
+                  setState(() {
+                    final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
+
+                    final place = wantToVisitPlaces.removeAt(oldIndex);
+                    wantToVisitPlaces.insert(index, place);
+                  });
+                },
               ),
             ),
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
-              child: Column(
-                children: List.generate(
-                  alreadyVisitedPlaces.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: SightCard(
-                        sight: alreadyVisitedPlaces[index],
-                        isHaveCalendarOrShareIcon: true,
-                        calendarOrShareIcon: AppAssets.shareIcon,
-                        addOrRemoveIcon: AppAssets.closeIcon,
-                        onDeletePlace: () {
-                          _onDeletePlace(index, alreadyVisitedPlaces);
-                        },
-                      ),
+            Theme(
+              data: Theme.of(context).copyWith(
+                canvasColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+              ),
+              child: ReorderableListView.builder(
+                padding: const EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
+                itemCount: alreadyVisitedPlaces.length,
+                itemBuilder: (context, index) => Padding(
+                  key: ValueKey(index),
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: SightCard(
+                      sight: alreadyVisitedPlaces[index],
+                      isHaveCalendarOrShareIcon: true,
+                      calendarOrShareIcon: AppAssets.shareIcon,
+                      addOrRemoveIcon: AppAssets.closeIcon,
+                      onDeletePlace: () {
+                        _onDeletePlace(index, alreadyVisitedPlaces);
+                      },
                     ),
                   ),
                 ),
+                onReorder: (oldIndex, newIndex) {
+                  setState(() {
+                    final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
+
+                    final place = alreadyVisitedPlaces.removeAt(oldIndex);
+                    alreadyVisitedPlaces.insert(index, place);
+                  });
+                },
               ),
             ),
           ],
