@@ -41,4 +41,5 @@ class AppStrings {
   static const tryChangingSearchParameters =
       'Попробуйте изменить параметры поиска';
   static const clearSearchHistory = 'Очистить историю';
+  static const delete = 'Удалить';
 }
