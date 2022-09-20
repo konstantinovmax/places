@@ -13,4 +13,5 @@ class AppColors {
   static const sharkColor = Color(0xFF1A1A20);
   static const pastelGreenColor = Color(0xff6ADA6F);
   static const birghtSunColor = Color(0xffFCDD3D);
+  static const flamingoColor = Color(0xffEF4343);
 }

@@ -42,7 +42,10 @@ class SearchBar extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     onPressed: clearTextController,
-                    icon: SvgPicture.asset(AppAssets.inputDeleteIcon),
+                    icon: SvgPicture.asset(
+                      AppAssets.inputDeleteIcon,
+                      color: AppColors.martiniqueColor,
+                    ),
                   ),
                 )
               : null,

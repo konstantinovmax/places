@@ -23,4 +23,6 @@ class AppAssets {
   static const plusIcon = 'res/icons/plus_icon.svg';
   static const searchIcon = 'res/icons/search_icon.svg';
   static const filterIcon = 'res/icons/filter_icon.svg';
+  static const defaultImage = 'res/images/default_image.jpeg';
+  static const trashBasketIcon = 'res/icons/trash_basket_icon.svg';
 }
