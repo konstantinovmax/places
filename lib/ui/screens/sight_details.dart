@@ -17,63 +17,74 @@ class SightDetails extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              SightDetailsImage(sight: sight),
-              AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0.0,
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Container(
-                    width: 32.0,
-                    height: 32.0,
-                    decoration: BoxDecoration(
-                      color: theme.scaffoldBackgroundColor,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        AppAssets.arrowIcon,
-                        color: theme.indicatorColor,
-                      ),
-                    ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            expandedHeight: 360.0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                sight.url,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+                loadingBuilder: (context, widget, loadingProgress) {
+                  if (loadingProgress != null) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return widget;
+                },
+              ),
+            ),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Container(
+                width: 32.0,
+                height: 32.0,
+                decoration: BoxDecoration(
+                  color: theme.scaffoldBackgroundColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset(
+                    AppAssets.arrowIcon,
+                    color: theme.indicatorColor,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-          const SizedBox(
-            height: 24.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              children: [
-                SightDetailsContent(sight: sight, theme: theme),
-                const SizedBox(
-                  height: 24.0,
-                ),
-                SightDetailsSubmitButton(theme: theme),
-                const SizedBox(
-                  height: 24.0,
-                ),
-                Divider(
-                  height: 1.0,
-                  thickness: 0.0,
-                  color: AppColors.waterlooColor.withOpacity(0.6),
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                SightDetailsActionButtons(theme: theme),
-              ],
+          SliverFillRemaining(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 0.0),
+              child: Column(
+                children: [
+                  SightDetailsContent(sight: sight, theme: theme),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  SightDetailsSubmitButton(theme: theme),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  Divider(
+                    height: 1.0,
+                    thickness: 0.0,
+                    color: AppColors.waterlooColor.withOpacity(0.6),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  SightDetailsActionButtons(theme: theme),
+                ],
+              ),
             ),
           ),
         ],
